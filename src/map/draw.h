@@ -29,9 +29,18 @@ void writeMap() {
 }
 
 void drawMap() {
+    if (_access("map/", 0) == -1)
+        _mkdir("map/");
     printf("Input your map name: ");
     fflush(stdout);
     scanf("%s", filename);
+    if (_access(("map/" + std::string(filename) + ".lgmap").c_str(), 0) != -1) {
+        printf("You've already have this map, we'll load this map for you to update it\n");
+        printf("Press any key to continue...");
+        getch();
+        readMap(filename);
+        goto draw;
+    }
     printf("Your map will save to: %s.lgmap\n", filename);
     printf("Press any key to continue...");
     fflush(stdout);
@@ -52,6 +61,7 @@ void drawMap() {
         fflush(stdout);
         scanf("%d", &C);
     } while (C < 1 || C > 500);
+draw:
     clearall();
     for (int i = 1; i <= R; i++)
         for (int j = 1; j <= C; j++)

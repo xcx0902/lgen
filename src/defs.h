@@ -5,6 +5,7 @@
 #include <string>
 #include <windows.h>
 #include <conio.h>
+#include <direct.h>
 #include <random>
 #include <chrono>
 #include <unistd.h>
