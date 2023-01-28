@@ -79,7 +79,7 @@ void printMap(int cheat, defPlayer player) {
         putchar('\n');
     }
     putchar('\n');
-    // fflush(stdout);
+    fflush(stdout);
 }
 
 #endif // __LGEN_MAP_DEFS_H
