@@ -67,7 +67,7 @@ inputCheatCode:
     return ret;
 }
 
-inline int selectMap() {
+inline void selectMap() {
     printf("Select map: \n");
     int choice = 1, input = 0;
     gotoxy(2, 4); printf("Use standard map");
@@ -96,7 +96,7 @@ inline int selectMap() {
 
 int main() {
     ShowWindow(hwnd, SW_MAXIMIZE);
-    system("title Local Generals v1.0.0");
+    system("title Local Generals v1.1.0");
     initattr();
     hideCursor();
     printf("Welcome to Local Generals!\n");
