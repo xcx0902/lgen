@@ -104,7 +104,7 @@ void drawMap() {
                     case 72: if (now.x > 1) now.x--; break;
                     case 75: if (now.y > 1) now.y--; break;
                     case 80: if (now.x < R) now.x++; break;
-                    case 77: if (now.x < C) now.y++; break;
+                    case 77: if (now.y < C) now.y++; break;
                 }
             }
         }

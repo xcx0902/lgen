@@ -73,8 +73,8 @@ void printMap(int cheat, defPlayer player) {
                 }
             }
         }
-        clearline();
         resetattr();
+        clearline();
         putchar('\n');
     }
     putchar('\n');
