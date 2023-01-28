@@ -56,6 +56,7 @@ inline void setfcolor(int RGB) { printf("\033[38;2;%d;%d;%dm", RGB / 65536, RGB 
 inline void setbcolor(int RGB) { printf("\033[48;2;%d;%d;%dm", RGB / 65536, RGB / 256 % 256, RGB % 256); }
 inline void setfcolor(int R, int G, int B) { printf("\033[38;2;%d;%d;%dm", R, G, B); }
 inline void setbcolor(int R, int G, int B) { printf("\033[48;2;%d;%d;%dm", R, G, B); }
+inline void underline() { fputs("\033[4m", stdout); }
 
 inline int initattr() {
 	HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -80,7 +81,7 @@ struct block {
     ll army;
 };
 
-int R, C, delay, players;
+int R, C, delay, cheatCode, players;
 const int MAX_SIZE = 500;
 block map[MAX_SIZE + 5][MAX_SIZE + 5];
 
@@ -108,6 +109,12 @@ defTeam team[64] = {
 	{"Emerald", 0x00ce80},
 	{"Olive", 0x808000},
 };
+
+void printTeam(int id) {
+	setfcolor(team[id].color);
+	printf("%s", team[id].name.c_str());
+	resetattr();
+}
 
 struct defPlayer {
     int x, y;

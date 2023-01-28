@@ -27,6 +27,45 @@ inline int selectSpeed() {
 	else return 1000 / (1 << (choice - 1));
 }
 
+inline int selectCheatCode() {
+    printf("Select cheat code: \n");
+    int choice = 1, ret = 2;
+    gotoxy(2, 1);
+    printf(">>");
+inputCheatCode:
+    int input = 0;
+    for (int i = 1; i <= players; i++) {
+        gotoxy(i + 1, 4);
+        if (ret & (1 << i)) underline();
+        printTeam(i);
+    }
+    gotoxy(players + 2, 4);
+    if (cheatCode == ((1 << players) - 1) << 1)
+        underline();
+    printf("Select All");
+    resetattr();
+    gotoxy(players + 3, 4);
+    printf("COMPLETE SELECTING");
+    while (input != 13) {
+        input = getch();
+        gotoxy(choice + 1, 1);
+        printf("  ");
+        switch (tolower(input)) {
+            case 'w': if (choice > 1) choice--; break;
+            case 's': if (choice < players + 2) choice++; break;
+        }
+        gotoxy(choice + 1, 1);
+        printf(">>");
+    }
+    if (choice != players + 2) {
+        if (choice == players + 1)
+            ret = ((ret == ((1 << players) - 1) << 1)? 2 : ((1 << players) - 1) << 1);
+        else ret ^= (1 << choice);
+        goto inputCheatCode;
+    }
+    return ret;
+}
+
 int main() {
     ShowWindow(hwnd, SW_MAXIMIZE);
     system("title Local Generals v1.0.0");
@@ -55,9 +94,15 @@ inputPlayers:
     fprintf(stderr, "players = %d\033[K\n", players);
     getch();
     clearall();
+    cheatCode = selectCheatCode();
+    gotoxy(players + 4, 1);
+    fprintf(stderr, "cheatCode = %d\n", cheatCode);
+    getch();
+    clearall();
     printf("Creating map...\n");
     createStandardMap();
     setvbuf(stdout, nullptr, _IOFBF, 5000000);
+    clearall();
     runGame();
     return 0;
 }
