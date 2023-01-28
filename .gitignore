@@ -37,7 +37,8 @@
 
 # Runner script
 
-run.*
+run*.sh
+run*.bat
 
 # LGen files
 
