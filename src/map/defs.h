@@ -40,12 +40,11 @@ void printNum(bool visible, ll army, int belong, char lc, char rc, char mc = ' '
 }
 
 void printMap(int cheat, defPlayer player) {
-    setbcolor(0x000000);
+    resetattr();
     register int i, j;
     for (i = 1; i <= R; i++) {
         for (j = 1; j <= C; j++) {
-            setbcolor(0x000000);
-            setfcolor(0xffffff);
+            resetattr();
             if (player.x == i && player.y == j)
                 setbcolor(0x000080);
             switch (map[i][j].type) {
@@ -75,7 +74,7 @@ void printMap(int cheat, defPlayer player) {
             }
         }
         clearline();
-        setfcolor(0xffffff);
+        resetattr();
         putchar('\n');
     }
     putchar('\n');
