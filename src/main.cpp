@@ -142,6 +142,7 @@ inputPlayers:
     clearall();
     printf("Press any key to start the game...");
     getch();
+    clearall();
     setvbuf(stdout, nullptr, _IOFBF, 5000000);
     runGame();
     return 0;
