@@ -41,6 +41,18 @@ int main() {
     fprintf(stderr, "delay = %d\n", delay);
     getch();
     clearall();
+inputPlayers:
+    printf("Input players (<=16): ");
+    scanf("%d", &players);
+    if (players < 2 || players > 16) {
+        printf("Invalid input! Please input a valid number of players.\n");
+        gotoxy(1, 1);
+        clearline();
+        goto inputPlayers;
+    }
+    fprintf(stderr, "players = %d\033[K\n", players);
+    getch();
+    clearall();
     printf("Creating map...\n");
     createStandardMap();
     setvbuf(stdout, nullptr, _IOFBF, 5000000);

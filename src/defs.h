@@ -80,7 +80,7 @@ struct block {
     ll army;
 };
 
-int R, C, delay;
+int R, C, delay, players;
 const int MAX_SIZE = 500;
 block map[MAX_SIZE + 5][MAX_SIZE + 5];
 
