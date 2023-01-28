@@ -96,7 +96,7 @@ inline void selectMap() {
 
 int main() {
     ShowWindow(hwnd, SW_MAXIMIZE);
-    system("title Local Generals v1.1.0");
+    system("title Local Generals v1.1.1");
     initattr();
     hideCursor();
     printf("Welcome to Local Generals!\n");
