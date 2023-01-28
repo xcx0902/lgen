@@ -127,6 +127,11 @@ struct defMessage {
     std::string msg;
 };
 
+struct defMove {
+	int id;
+	defPlayer from, to;
+};
+
 const char suf[20] = {0, 'H', 'K', 'W', 'L', 'M', 'Q', 'I', 'G', 'B', 'N', 'T'};
 const char* delays[10] = {0, "1x", "2x", "4x", "8x", "16x", "32x", "FAST"};
 
