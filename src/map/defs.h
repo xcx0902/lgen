@@ -39,7 +39,7 @@ void printNum(bool visible, ll army, int belong, char lc, char rc, char mc = ' '
     resetattr();
 }
 
-void printMap(int cheat, defPlayer player) {
+void printMap(int cheat, defPlayer player, int visAll = 0) {
     resetattr();
     register int i, j;
     for (i = 1; i <= R; i++) {
@@ -49,11 +49,11 @@ void printMap(int cheat, defPlayer player) {
                 setbcolor(0x000080);
             switch (map[i][j].type) {
                 case 0: { /* plain */
-                    printNum(isVisible(i, j, cheat), map[i][j].army, map[i][j].belong, ' ', ' ');
+                    printNum(isVisible(i, j, cheat) || visAll, map[i][j].army, map[i][j].belong, ' ', ' ');
                     break;
                 }
                 case 1: { /* swamp */
-                    printNum(isVisible(i, j, cheat), map[i][j].army, map[i][j].belong, '=', '=', '=', '=');
+                    printNum(isVisible(i, j, cheat) || visAll, map[i][j].army, map[i][j].belong, '=', '=', '=', '=');
                     break;
                 }
                 case 2: { /* mountain */
@@ -62,13 +62,13 @@ void printMap(int cheat, defPlayer player) {
                 }
                 case 3: { /* general */
                     if (!map[i][j].belong) {
-                        if (isVisible(i, j, cheat)) fputs("$GEN$", stdout);
+                        if (isVisible(i, j, cheat) || visAll) fputs("$GEN$", stdout);
                         else fputs("     ", stdout);
-                    } else printNum(isVisible(i, j, cheat), map[i][j].army, map[i][j].belong, '$', '$');
+                    } else printNum(isVisible(i, j, cheat) || visAll, map[i][j].army, map[i][j].belong, '$', '$');
                     break;
                 }
                 case 4: { /* city */
-                    printNum(isVisible(i, j, cheat), map[i][j].army, map[i][j].belong, '[', ']', ' ', '#');
+                    printNum(isVisible(i, j, cheat) || visAll, map[i][j].army, map[i][j].belong, '[', ']', ' ', '#');
                     break;
                 }
             }

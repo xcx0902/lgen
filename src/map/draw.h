@@ -10,6 +10,7 @@ char filename[1000];
 defPlayer now = {1, 1};
 
 void writeMap() {
+    fp = fopen(("map/" + std::string(filename) + ".lgmap").c_str(), "w");
     fprintf(fp, "%d %d\n", R, C);
     for (int i = 1; i <= R; i++) {
         for (int j = 1; j <= C; j++)
@@ -21,11 +22,11 @@ void writeMap() {
             fprintf(fp, "%d ", map[i][j].type);
         fprintf(fp, "\n");
     }
-    clearall();
-    printf("Map saved as %s\n", ("map/" + std::string(filename) + ".lgmap").c_str());
-    printf("Press any key to quit...");
-    fflush(stdout);
-    getch();
+    for (int i = 1; i <= R; i++) {
+        for (int j = 1; j <= C; j++)
+            fprintf(fp, "%d ", map[i][j].visible);
+        fprintf(fp, "\n");
+    }
 }
 
 void drawMap() {
@@ -45,7 +46,6 @@ void drawMap() {
     printf("Press any key to continue...");
     fflush(stdout);
     getch();
-    fp = fopen(("map/" + std::string(filename) + ".lgmap").c_str(), "w");
     clearall();
     do {
         gotoxy(1, 1);
@@ -63,32 +63,31 @@ void drawMap() {
     } while (C < 1 || C > 500);
 draw:
     clearall();
-    for (int i = 1; i <= R; i++)
-        for (int j = 1; j <= C; j++)
-            map[i][j].visible = 1;
     setvbuf(stdout, nullptr, _IOFBF, 5000000);
     while (1) {
         gotoxy(1, 1);
-        printMap(0, now);
-        printf("w: save | c: changeArmy | 0: plain | 1: swamp | 2: mountain | 3: general | 4: city | army = %d\n", army);
+        printMap(0, now, 1);
+        printf("w: save | q: save&quit | c: changeArmy | e: changeVisibility | 0: plain | 1: swamp | 2: mountain | 3: general | 4: city | visible = %d | army = %d\n", map[now.x][now.y].visible, army);
         clearline();
         printf("x = %d, y = %d", now.x, now.y);
         fflush(stdout);
         cmd = getch();
         switch (cmd) {
             case 'w': {
-                int ret = MessageBoxA(nullptr, "Are you sure to save the map and quit?", "Confirm", MB_YESNO);
-                if (ret == IDYES) {
-                    writeMap();
-                    return;
-                }
+                writeMap();
                 break;
             }
+            case 'q':
+                writeMap();
+                return;
             case 'c':
                 gotoxy(R + 2, 93);
                 clearline();
                 fflush(stdout);
                 scanf("%lld", &army);
+                break;
+            case 'e':
+                map[now.x][now.y].visible ^= 1;
                 break;
             case '0':
                 map[now.x][now.y].type = 0;

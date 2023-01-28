@@ -40,6 +40,9 @@ void readMap(char *name) {
     for (int i = 1; i <= R; i++)
         for (int j = 1; j <= C; j++)
             fscanf(fp, "%d", &map[i][j].type);
+    for (int i = 1; i <= R; i++)
+        for (int j = 1; j <= C; j++)
+            fscanf(fp, "%d", &map[i][j].visible);
 }
 
 #endif // __LGEN_MAP_CREATE_H
