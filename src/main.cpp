@@ -2,6 +2,7 @@
 #include "game.h"
 #include "map/defs.h"
 #include "map/create.h"
+#include "map/draw.h"
 
 HWND hwnd = GetConsoleWindow();
 
@@ -72,7 +73,18 @@ int main() {
     initattr();
     hideCursor();
     printf("Welcome to Local Generals!\n");
-    printf("Press any key to start...\n");
+    printf("Input a number to start: \n");
+    printf("0: Start the game\n");
+    printf("1: Draw a map\n");
+    printf("Other: Quit\n");
+    int stat = getch() - '0';
+    if (stat == 1) {
+        clearall();
+        drawMap();
+        return 0;
+    }
+    if (stat != 0)
+        return 0;
     getch();
     clearall();
     delay = selectSpeed();
