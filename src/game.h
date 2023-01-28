@@ -3,6 +3,7 @@
 
 #include "defs.h"
 #include "map/defs.h"
+#include "bot/main.h"
 
 int turn, msgCnt;
 bool gameEnd, isAlive[20];
@@ -198,6 +199,10 @@ inline void runGame() {
             moves.pop_front();
         if (!moves.empty())
             moves.pop_front();
+        for (int i = 2; i <= players; i++) {
+            if (!isAlive[i]) continue;
+            move(i, mainBot::mainBot(i, pos[i]), pos[i]);
+        }
         flushMove();
         if (cheatCode != ((1 << players) - 1) << 1) {
             int allDead = 0;
