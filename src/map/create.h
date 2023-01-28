@@ -31,4 +31,15 @@ void createStandardMap(int N = -1, int M = -1) {
         }
 }
 
+void readMap(char *name) {
+    FILE *fp = fopen(("map/" + std::string(name) + ".lgmap").c_str(), "r");
+    fscanf(fp, "%d %d", &R, &C);
+    for (int i = 1; i <= R; i++)
+        for (int j = 1; j <= C; j++)
+            fscanf(fp, "%d", &map[i][j].army);
+    for (int i = 1; i <= R; i++)
+        for (int j = 1; j <= C; j++)
+            fscanf(fp, "%d", &map[i][j].type);
+}
+
 #endif // __LGEN_MAP_CREATE_H

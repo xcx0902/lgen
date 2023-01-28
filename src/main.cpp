@@ -67,6 +67,33 @@ inputCheatCode:
     return ret;
 }
 
+inline int selectMap() {
+    printf("Select map: \n");
+    int choice = 1, input = 0;
+    gotoxy(2, 4); printf("Use standard map");
+    gotoxy(3, 4); printf("Import a map created by this program");
+    gotoxy(2, 1); printf(">>");
+    while (input != 13) {
+        input = getch();
+        gotoxy(choice + 1, 1);
+        printf("  ");
+        switch (tolower(input)) {
+            case 'w': if (choice > 1) choice--; break;
+            case 's': if (choice < 2) choice++; break;
+        }
+        gotoxy(choice + 1, 1);
+        printf(">>");
+    }
+    if (choice == 1) createStandardMap();
+    else {
+        clearall();
+        char name[1000];
+        printf("Enter map name (without prefix 'map/' and suffic '.lgmap'): ");
+        scanf("%s", name);
+        readMap(name);
+    }
+}
+
 int main() {
     ShowWindow(hwnd, SW_MAXIMIZE);
     system("title Local Generals v1.0.0");
@@ -111,10 +138,11 @@ inputPlayers:
     fprintf(stderr, "cheatCode = %d\n", cheatCode);
     getch();
     clearall();
-    printf("Creating map...\n");
-    createStandardMap();
-    setvbuf(stdout, nullptr, _IOFBF, 5000000);
+    selectMap();
     clearall();
+    printf("Press any key to start the game...");
+    getch();
+    setvbuf(stdout, nullptr, _IOFBF, 5000000);
     runGame();
     return 0;
 }
