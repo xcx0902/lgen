@@ -38,3 +38,8 @@
 # Runner script
 
 run.*
+
+# LGen files
+
+*.lg*
+*.txt
