@@ -68,7 +68,7 @@ inputCheatCode:
 
 int main() {
     ShowWindow(hwnd, SW_MAXIMIZE);
-    system("title Local Generals v1.0.0");
+    system("title Local Generals Pre");
     initattr();
     hideCursor();
     printf("Welcome to Local Generals!\n");
