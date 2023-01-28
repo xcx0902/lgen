@@ -34,3 +34,7 @@
 # Vscode
 
 .vscode/
+
+# Runner script
+
+run.*
