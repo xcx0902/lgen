@@ -8,6 +8,8 @@
 #include <random>
 #include <chrono>
 #include <unistd.h>
+#include <deque>
+#include <algorithm>
 
 #define ll long long
 
