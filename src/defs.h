@@ -32,6 +32,16 @@ inline void getxy(int& x, int& y) {
 	x = bInfo.dwCursorPosition.Y;
 }
 
+inline void clearall() {
+	HANDLE hdout = GetStdHandle(STD_OUTPUT_HANDLE);
+	CONSOLE_SCREEN_BUFFER_INFO csbi;
+	GetConsoleScreenBufferInfo(hdout, &csbi);
+	DWORD size = csbi.dwSize.X * csbi.dwSize.Y, num = 0;
+	COORD pos = {0, 0};
+	FillConsoleOutputCharacter(hdout, ' ', size, pos, &num);
+	FillConsoleOutputAttribute(hdout, csbi.wAttributes, size, pos, &num);
+	SetConsoleCursorPosition(hdout, pos);
+}
 inline void clearline() { fputs("\033[K", stdout); }
 inline void gotoxy(int x, int y) { printf("\033[%d;%dH", x, y); }
 inline void curup   (int c = 1) { printf("\033[%dA", c); }
