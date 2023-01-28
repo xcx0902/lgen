@@ -45,9 +45,11 @@ inputPlayers:
     printf("Input players (<=16): ");
     scanf("%d", &players);
     if (players < 2 || players > 16) {
+        clearall();
         printf("Invalid input! Please input a valid number of players.\n");
+        getch();
+        clearall();
         gotoxy(1, 1);
-        clearline();
         goto inputPlayers;
     }
     fprintf(stderr, "players = %d\033[K\n", players);
