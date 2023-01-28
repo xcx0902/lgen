@@ -5,12 +5,27 @@
 #include <string>
 #include <windows.h>
 #include <conio.h>
+#include <random>
+#include <chrono>
+#include <unistd.h>
 
 #define ll long long
 
+// Random generator
+
+std::mt19937 mtrand(std::chrono::system_clock::now().time_since_epoch().count());
+
+inline int random(int k) {
+	return mtrand() % k;
+}
+
+inline int random(int l, int r) {
+	return mtrand() % (r - l + 1) + l;
+}
+
 // Console functions
 
-void getxy(int& x, int& y) {
+inline void getxy(int& x, int& y) {
 	CONSOLE_SCREEN_BUFFER_INFO bInfo;
 	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &bInfo);
 	y = bInfo.dwCursorPosition.X;
