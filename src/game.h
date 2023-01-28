@@ -141,6 +141,40 @@ void flushMove() {
     }
 }
 
+void printMsg() {
+    gotoxy(R + 1, 1);
+    printf("Turn %d", turn);
+    gotoxy(R + 2, 1);
+    printf("Team    Land  Army            Message");
+    struct node {int army, land, team;} p[20];
+    for (int i = 1; i <= players; i++)
+        p[i].army = p[i].land = 0, p[i].team = i;
+    for (int i = 1; i <= R; i++)
+        for (int j = 1; j <= C; j++) {
+            p[map[i][j].belong].army += map[i][j].army;
+            p[map[i][j].belong].land++;
+        }
+    std::sort(p + 1, p + players + 1, [](node a, node b){return a.army > b.army;});
+    for (int i = 1; i <= players; i++) {
+        int t = p[i].team;
+        setfcolor(team[t].color);
+        gotoxy(R + i + 2, 1);
+        clearline();
+        printf("%s", team[t].name.c_str());
+        gotoxy(R + i + 2, 9);
+        printf("%d", p[i].land);
+        gotoxy(R + i + 2, 15);
+        printf("%d", p[i].army);
+    }
+    for (int i = 1; i <= msgCnt; i++) {
+        gotoxy(R + i + 2, 31);
+        resetattr();
+        printf("Turn %d: ", msg[i].turn);
+        printTeam(msg[i].id);
+        printf(" %s", msg[i].msg.c_str());
+    }
+}
+
 inline void runGame() {
     for (int i = 1; i <= players; i++)
         isAlive[i] = true;
@@ -229,10 +263,7 @@ inline void runGame() {
         }
         gotoxy(1, 1);
         printMap(cheatCode, pos[1]);
-        gotoxy(R + 1, 1);
-        printf("Turn %d\n", turn);
-        // ranklist(pos);
-        // printGameMessage();
+        printMsg();
         fflush(stdout);
         lst = std::chrono::steady_clock::now().time_since_epoch();
     }
