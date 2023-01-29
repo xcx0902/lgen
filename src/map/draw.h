@@ -2,6 +2,7 @@
 #define __LGEN_MAP_DRAW_H
 
 #include "defs.h"
+#include "create.h"
 
 int cmd;
 ll army;
