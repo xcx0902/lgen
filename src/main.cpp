@@ -88,7 +88,7 @@ inline void selectMap() {
     }
     if (choice == 1) createStandardMap();
     else {
-        clearall();
+        gotoxy(5, 1);
         char name[1000];
         printf("Enter map name (without prefix 'map/' and suffic '.lgmap'): ");
         scanf("%s", name);
