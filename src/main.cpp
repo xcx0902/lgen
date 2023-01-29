@@ -3,6 +3,7 @@
 #include "map/defs.h"
 #include "map/create.h"
 #include "map/draw.h"
+#include "replay/create.h"
 
 HWND hwnd = GetConsoleWindow();
 
@@ -94,6 +95,34 @@ inline void selectMap() {
     }
 }
 
+inline void selectReplay() {
+    printf("Do you want to save replay? \n");
+    int choice = 1, input = 0;
+    gotoxy(2, 4); printf("Yes");
+    gotoxy(3, 4); printf("No");
+    gotoxy(2, 1); printf(">>");
+    while (input != 13) {
+        input = getch();
+        gotoxy(choice + 1, 1);
+        printf("  ");
+        switch (tolower(input)) {
+            case 'w': if (choice > 1) choice--; break;
+            case 's': if (choice < 2) choice++; break;
+        }
+        gotoxy(choice + 1, 1);
+        printf(">>");
+    }
+    if (choice == 2) {
+        useRep = false;
+        return;
+    }
+    gotoxy(5, 1);
+    printf("Please input your replay name: ");
+    scanf("%s", repName);
+    printf("Your replay will save to: %s.lgreplay\n", repName);
+    initReplay();
+}
+
 int main() {
     ShowWindow(hwnd, SW_MAXIMIZE);
     system("title Local Generals v1.1.2");
@@ -139,6 +168,8 @@ inputPlayers:
     getch();
     clearall();
     selectMap();
+    clearall();
+    selectReplay();
     clearall();
     printf("Press any key to start the game...");
     getch();

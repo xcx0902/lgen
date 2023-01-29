@@ -4,6 +4,7 @@
 #include "defs.h"
 #include "map/defs.h"
 #include "bot/main.h"
+#include "replay/create.h"
 
 int turn, msgCnt;
 bool gameEnd, isAlive[20];
@@ -145,7 +146,7 @@ void flushMove() {
 
 void printMsg() {
     gotoxy(R + 1, 1);
-    printf("Turn %d", turn / 2);
+    printf("Turn %d%c", turn / 2, (turn % 2? '.' : ' '));
     gotoxy(R + 2, 1);
     printf("Team    Land  Army            Message");
     struct node {int army, land, team;} p[20];
@@ -264,6 +265,7 @@ inline void runGame() {
         gotoxy(1, 1);
         printMap(cheatCode, pos[1]);
         printMsg();
+        if (useRep) saveReplay();
         fflush(stdout);
         lst = std::chrono::steady_clock::now().time_since_epoch();
     }

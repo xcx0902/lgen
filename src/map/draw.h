@@ -5,27 +5,27 @@
 
 int cmd;
 ll army;
-FILE *fp;
+FILE *fpMap;
 char filename[1000];
 defPlayer now = {1, 1};
 
 void writeMap() {
-    fp = fopen(("map/" + std::string(filename) + ".lgmap").c_str(), "w");
-    fprintf(fp, "%d %d\n", R, C);
+    fpMap = fopen(("map/" + std::string(filename) + ".lgmap").c_str(), "w");
+    fprintf(fpMap, "%d %d\n", R, C);
     for (int i = 1; i <= R; i++) {
         for (int j = 1; j <= C; j++)
-            fprintf(fp, "%d ", map[i][j].army);
-        fprintf(fp, "\n");
+            fprintf(fpMap, "%d ", map[i][j].army);
+        fprintf(fpMap, "\n");
     }
     for (int i = 1; i <= R; i++) {
         for (int j = 1; j <= C; j++)
-            fprintf(fp, "%d ", map[i][j].type);
-        fprintf(fp, "\n");
+            fprintf(fpMap, "%d ", map[i][j].type);
+        fprintf(fpMap, "\n");
     }
     for (int i = 1; i <= R; i++) {
         for (int j = 1; j <= C; j++)
-            fprintf(fp, "%d ", map[i][j].visible);
-        fprintf(fp, "\n");
+            fprintf(fpMap, "%d ", map[i][j].visible);
+        fprintf(fpMap, "\n");
     }
 }
 
