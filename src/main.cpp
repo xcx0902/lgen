@@ -25,7 +25,7 @@ inline int selectSpeed() {
         printf(">>");
     }
     if (choice == 7) return 0;
-	else return 1000 / (1 << (choice - 1));
+	else return 400 / (1 << (choice - 1));
 }
 
 inline int selectCheatCode() {

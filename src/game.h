@@ -51,19 +51,21 @@ void updateMap() {
                 continue;
             switch (map[i][j].type) {
                 case 0: /* plain */
-                    if (turn % 25 == 0)
+                    if (turn % 50 == 0)
                         map[i][j].army++;
                     break;
                 case 1: /* swamp */
-                    if (map[i][j].army > 0)
+                    if (turn % 2 == 0 && map[i][j].army > 0)
                         if (!(--map[i][j].army))
                             map[i][j].belong = 0;
                     break;
                 case 3: /* general */
-                    map[i][j].army++;
+                    if (turn % 2 == 0)
+                        map[i][j].army++;
                     break;
                 case 4: /* city */
-                    map[i][j].army++;
+                    if (turn % 2 == 0)
+                        map[i][j].army++;
                     break;
             }
         }
@@ -99,7 +101,7 @@ inline int move(int id, int mv, defPlayer& pos) {
 
 void kill(int p1, int p2) {
     if (p2 == 1)
-        MessageBoxA(nullptr, ("YOU ARE KILLED BY PLAYER " + team[p1].name + " AT TURN " + std::to_string(turn) + ".").c_str(), "", MB_OK);
+        MessageBoxA(nullptr, ("YOU ARE KILLED BY PLAYER " + team[p1].name + " AT TURN " + std::to_string(turn / 2) + ".").c_str(), "", MB_OK);
     isAlive[p2] = 0;
     for (int i = 1; i <= R; i++)
         for (int j = 1; j <= C; j++) {
@@ -109,7 +111,7 @@ void kill(int p1, int p2) {
             }
         }
     int col = team[p2].color;
-    addMessage(turn, p1, ("KILLED PLAYER \033[38;2;" + std::to_string(col / 65536) + ";" + std::to_string(col / 256 % 256) + ";" + std::to_string(col % 256) + "m" + team[p2].name + "."));
+    addMessage(turn / 2, p1, ("KILLED PLAYER \033[38;2;" + std::to_string(col / 65536) + ";" + std::to_string(col / 256 % 256) + ";" + std::to_string(col % 256) + "m" + team[p2].name + "."));
     fflush(stdout);
 }
 
@@ -143,7 +145,7 @@ void flushMove() {
 
 void printMsg() {
     gotoxy(R + 1, 1);
-    printf("Turn %d", turn);
+    printf("Turn %d", turn / 2);
     gotoxy(R + 2, 1);
     printf("Team    Land  Army            Message");
     struct node {int army, land, team;} p[20];
@@ -213,16 +215,14 @@ inline void runGame() {
                     int confirmSur = MessageBoxA(nullptr, "ARE YOU SURE TO SURRENDER?", "CONFIRM SURRENDER", MB_YESNO);
                     if (confirmSur == 7) break;
                     isAlive[1] = 0;
-                    for (int i = 1; i <= R; ++i) {
-                        for (int j = 1; j <= C; ++j) {
+                    for (int i = 1; i <= R; i++)
+                        for (int j = 1; j <= C; j++)
                             if (map[i][j].belong == 1) {
                                 map[i][j].belong = 0;
                                 if (map[i][j].type == 3)
                                     map[i][j].type = 4;
                             }
-                        }
-                    }
-                    addMessage(turn, 1, "SURRENDERED.");
+                    addMessage(turn / 2, 1, "SURRENDERED.");
                     break;
             }
         }
@@ -258,7 +258,7 @@ inline void runGame() {
                 MessageBoxA(nullptr, ("PLAYER " + team[std::__lg(ed)].name + " WON!" + "\n" + "THE GAME WILL CONTINUE." + "\n" + "YOU CAN PRESS [ESC] TO EXIT.").c_str(), "GAME END", MB_OK);
                 gameEnd = 1;
                 cheatCode = ((1 << players) - 1) << 1;
-                addMessage(turn, std::__lg(ed), "WON!");
+                addMessage(turn / 2, std::__lg(ed), "WON!");
             }
         }
         gotoxy(1, 1);
