@@ -20,11 +20,11 @@ namespace mainBot {
             int tx = pos.x + dx[i], ty = pos.y + dy[i];
             if (map[tx][ty].type == 2 || tx < 1 || tx > R || ty < 1 || ty > C) continue;
             p[++cnt] = {i, map[tx][ty].belong, map[tx][ty].type, map[tx][ty].army, map[tx][ty].army};
-            if (p[cnt].type != 1 && p[cnt].belong == id) p[cnt].army = -p[cnt].army, p[cnt].del = -p[cnt].del;
+            if (p[cnt].type != 1 && p[cnt].belong == id) p[cnt].army = -p[cnt].army-random(10), p[cnt].del = -p[cnt].del;
             if (p[cnt].type == 4 && p[cnt].belong != id) p[cnt].army = 2 * p[cnt].army - (ll)(1e15);
             else if (p[cnt].type == 0 && p[cnt].belong != id) p[cnt].army = p[cnt].army - (ll)(1e15);
-            else if (p[cnt].type == 1) p[cnt].del = 200, p[cnt].army = -1e16;
-            else if (p[cnt].type == 3 && p[cnt].belong != id) p[cnt].army = -(ll)(1e18);
+            else if (p[cnt].type == 1) p[cnt].del = 10, p[cnt].army = (ll)(1e16);
+            else if (p[cnt].type == 3 && p[cnt].belong != id) p[cnt].del = -(ll)(1e18), p[cnt].army = -(ll)(1e18);
         }
         std::sort(p + 1, p + cnt + 1);
         for (int i = 1; i <= cnt; i++)
