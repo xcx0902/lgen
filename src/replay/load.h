@@ -1,0 +1,107 @@
+#ifndef __LGEN_REPLAY_LOAD_H
+#define __LGEN_REPLAY_LOAD_H
+
+#include "../defs.h"
+#include "../map/defs.h"
+#include <vector>
+using std::vector;
+
+int allt, nowt = 2, autoPlay = 0;
+FILE *fpLoadRp;
+char loadRpName[1000];
+vector<vector<block>> rep[200001];
+
+void printRpMsg() {
+    gotoxy(R + 1, 1);
+    printf("Turn %d%c", nowt / 2, (nowt % 2? '.' : ' '));
+    gotoxy(R + 2, 1);
+    printf("Team    Land  Army");
+    struct node {int army, land, team;} p[20];
+    for (int i = 1; i <= players; i++)
+        p[i].army = p[i].land = 0, p[i].team = i;
+    for (int i = 1; i <= R; i++)
+        for (int j = 1; j <= C; j++) {
+            p[map[i][j].belong].army += map[i][j].army;
+            p[map[i][j].belong].land++;
+        }
+    std::sort(p + 1, p + players + 1, [](node a, node b){return a.army > b.army;});
+    for (int i = 1; i <= players; i++) {
+        int t = p[i].team;
+        setfcolor(team[t].color);
+        gotoxy(R + i + 2, 1);
+        clearline();
+        printf("%s", team[t].name.c_str());
+        gotoxy(R + i + 2, 9);
+        printf("%d", p[i].land);
+        gotoxy(R + i + 2, 15);
+        printf("%d", p[i].army);
+    }
+}
+
+inline void loadMap(const vector<vector<block>> &mp) {
+    for (int i = 1; i <= R; i++)
+        for (int j = 1; j <= C; j++)
+            map[i][j].army = mp[i][j].army, map[i][j].belong = mp[i][j].belong;
+}
+
+inline void loadReplay() {
+    printf("Input replay name: ");
+    scanf("%s", loadRpName);
+    fpLoadRp = fopen(("replay/" + std::string(loadRpName) + ".lgreplay").c_str(), "r");
+    printf("Loaded replay %s\n", ("replay/" + std::string(loadRpName) + ".lgreplay").c_str());
+    printf("Press any key to continue... ");
+    getch(); clearall();
+    fscanf(fpLoadRp, "%d %d %d", &R, &C, &players);
+    for (int i = 1; i <= R; i++)
+        for (int j = 1; j <= C; j++)
+            fscanf(fpLoadRp, "%d", &map[i][j].army);
+    for (int i = 1; i <= R; i++)
+        for (int j = 1; j <= C; j++)
+            fscanf(fpLoadRp, "%d", &map[i][j].type);
+    printf("Loading replay, it will take a while...");
+    while (fscanf(fpLoadRp, "%d", &allt) != EOF) {
+        gotoxy(2, 1);
+        printf("Loading turn %d%c", allt / 2, (allt % 2? '.' : ' '));
+        vector<vector<block>> &rp = rep[allt];
+        rp.resize(R + 1);
+        for (int i = 1; i <= R; i++)
+            rp[i].resize(C + 1);
+        for (int i = 1; i <= R; i++)
+            for (int j = 1; j <= C; j++)
+                fscanf(fpLoadRp, "%d", &rp[i][j].army);
+        for (int i = 1; i <= R; i++)
+            for (int j = 1; j <= C; j++)
+                fscanf(fpLoadRp, "%d", &rp[i][j].belong);
+    }
+    clearall();
+    int input = 0;
+    setvbuf(stdout, nullptr, _IOFBF, 5000000);
+    while (1) {
+        gotoxy(1, 1);
+        printMap(0, {0, 0}, 1);
+        printRpMsg();
+        fflush(stdout);
+        if (_kbhit()) {
+            input = getch();
+            switch (input) {
+                case 'q':
+                    return;
+                case 'a':
+                    autoPlay ^= 1;
+                    break;
+                case 224: {
+                    int tmp = getch();
+                    switch (tmp) {
+                        case 75: if (nowt > 2) nowt--; break;
+                        case 77: if (nowt < allt) nowt++; break;
+                    }
+                }
+            }
+        }
+        if (autoPlay && nowt < allt)
+            nowt++; 
+        loadMap(rep[nowt]);
+    }
+}
+
+#endif // __LGEN_REPLAY_LOAD_H

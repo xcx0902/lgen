@@ -182,6 +182,7 @@ inline void runGame() {
     for (int i = 1; i <= players; i++)
         isAlive[i] = true;
     initGen();
+    if (useRep) initReplay();
     updateMap();
     printMap(cheatCode, gens[1]);
     std::deque<int> moves;
@@ -265,7 +266,7 @@ inline void runGame() {
         gotoxy(1, 1);
         printMap(cheatCode, pos[1]);
         printMsg();
-        if (useRep) saveReplay();
+        if (useRep) saveReplay(turn);
         fflush(stdout);
         lst = std::chrono::steady_clock::now().time_since_epoch();
     }

@@ -4,6 +4,7 @@
 #include "map/create.h"
 #include "map/draw.h"
 #include "replay/create.h"
+#include "replay/load.h"
 
 HWND hwnd = GetConsoleWindow();
 
@@ -97,30 +98,30 @@ inline void selectMap() {
 
 inline void selectReplay() {
     printf("Do you want to save replay? \n");
-    int choice = 1, input = 0;
-    gotoxy(2, 4); printf("Yes");
-    gotoxy(3, 4); printf("No");
-    gotoxy(2, 1); printf(">>");
+    printf("Replay file will be very large, please be careful.\n");
+    int choice = 2, input = 0;
+    gotoxy(3, 4); printf("Yes");
+    gotoxy(4, 4); printf("No");
+    gotoxy(4, 1); printf(">>");
     while (input != 13) {
         input = getch();
-        gotoxy(choice + 1, 1);
+        gotoxy(choice + 2, 1);
         printf("  ");
         switch (tolower(input)) {
             case 'w': if (choice > 1) choice--; break;
             case 's': if (choice < 2) choice++; break;
         }
-        gotoxy(choice + 1, 1);
+        gotoxy(choice + 2, 1);
         printf(">>");
     }
     if (choice == 2) {
         useRep = false;
         return;
     }
-    gotoxy(5, 1);
+    gotoxy(6, 1);
     printf("Please input your replay name: ");
     scanf("%s", repName);
     printf("Your replay will save to: %s.lgreplay\n", repName);
-    initReplay();
 }
 
 int main() {
@@ -132,11 +133,17 @@ int main() {
     printf("Input a number to start: \n");
     printf("0: Start the game\n");
     printf("1: Draw a map\n");
+    printf("2: Watch a saved replay\n");
     printf("Other: Quit\n");
     int stat = getch() - '0';
     if (stat == 1) {
         clearall();
         drawMap();
+        return 0;
+    }
+    if (stat == 2) {
+        clearall();
+        loadReplay();
         return 0;
     }
     if (stat != 0)
