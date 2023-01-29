@@ -210,6 +210,7 @@ inline void runGame() {
                 case int('e'): if (!moves.empty()) moves.pop_back(); break;
                 case int('q'): moves.clear(); break;
                 case 27:
+                    if (useRep) setTurn(turn);
                     MessageBoxA(nullptr, "YOU QUIT THE GAME.", "EXIT", MB_OK);
                     return;
                 case int('\b'):

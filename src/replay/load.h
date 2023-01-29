@@ -6,12 +6,12 @@
 #include <vector>
 using std::vector;
 
-int allt, nowt = 2, autoPlay = 0;
+int allt, nowt = 2, savet, autoPlay = 0;
 FILE *fpLoadRp;
 char loadRpName[1000];
 vector<vector<block>> rep[200001];
 
-void printRpMsg() {
+inline void printRpMsg() {
     gotoxy(R + 1, 1);
     printf("Turn %d%c", nowt / 2, (nowt % 2? '.' : ' '));
     gotoxy(R + 2, 1);
@@ -44,6 +44,18 @@ inline void loadMap(const vector<vector<block>> &mp) {
             map[i][j].army = mp[i][j].army, map[i][j].belong = mp[i][j].belong;
 }
 
+inline void printProgress() {
+    double progress = 100.0 * allt / savet;
+    gotoxy(3, 1);
+    putchar('[');
+    for (int i = 1; i <= int(progress); i++)
+        putchar('#');
+    for (int i = 1; i <= 100 - int(progress); i++)
+        putchar(' ');
+    putchar(']');
+    printf(" %.3lf%%\n", progress);
+}
+
 inline void loadReplay() {
     printf("Input replay name: ");
     scanf("%s", loadRpName);
@@ -51,7 +63,7 @@ inline void loadReplay() {
     printf("Loaded replay %s\n", ("replay/" + std::string(loadRpName) + ".lgreplay").c_str());
     printf("Press any key to continue... ");
     getch(); clearall();
-    fscanf(fpLoadRp, "%d %d %d", &R, &C, &players);
+    fscanf(fpLoadRp, "%d %d %d %d", &R, &C, &players, &savet);
     for (int i = 1; i <= R; i++)
         for (int j = 1; j <= C; j++)
             fscanf(fpLoadRp, "%d", &map[i][j].army);
@@ -62,6 +74,8 @@ inline void loadReplay() {
     while (fscanf(fpLoadRp, "%d", &allt) != EOF) {
         gotoxy(2, 1);
         printf("Loading turn %d%c", allt / 2, (allt % 2? '.' : ' '));
+        if (savet) printProgress();
+        fflush(stdout);
         vector<vector<block>> &rp = rep[allt];
         rp.resize(R + 1);
         for (int i = 1; i <= R; i++)
