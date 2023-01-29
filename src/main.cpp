@@ -91,7 +91,16 @@ inline void selectMap() {
         gotoxy(5, 1);
         char name[1000];
         printf("Enter map name (without prefix 'map/' and suffic '.lgmap'): ");
+inputMapName:
         scanf("%s", name);
+        if (_access(("map/" + std::string(name) + ".lgmap").c_str(), 0) == -1) {
+            gotoxy(6, 1);
+            clearline();
+            printf("You don't have this map, please enter a valid map name");
+            gotoxy(5, 61);
+            clearline();
+            goto inputMapName;
+        }
         readMap(name);
     }
 }
