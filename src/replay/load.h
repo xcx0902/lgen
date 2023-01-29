@@ -6,7 +6,7 @@
 #include <vector>
 using std::vector;
 
-int allt, nowt = 2, savet, autoPlay = 0;
+int allt, nowt = 2, savet, lstt, autoPlay = 0, spd, eta;
 FILE *fpLoadRp;
 char loadRpName[1000];
 vector<vector<block>> rep[200001];
@@ -54,6 +54,10 @@ inline void printProgress() {
         putchar(' ');
     putchar(']');
     printf(" %.3lf%%\n", progress);
+    gotoxy(4, 1);
+    printf("%d turns/s", spd / 2);
+    if (eta) printf(" ETA %dm%ds", eta / 60, eta % 60);
+    clearline();
 }
 
 inline void loadReplay() {
@@ -71,6 +75,7 @@ inline void loadReplay() {
         for (int j = 1; j <= C; j++)
             fscanf(fpLoadRp, "%d", &map[i][j].type);
     printf("Loading replay, it will take a while...");
+    std::chrono::nanoseconds lst = std::chrono::steady_clock::now().time_since_epoch();
     while (fscanf(fpLoadRp, "%d", &allt) != EOF) {
         gotoxy(2, 1);
         printf("Loading turn %d%c", allt / 2, (allt % 2? '.' : ' '));
@@ -86,6 +91,12 @@ inline void loadReplay() {
         for (int i = 1; i <= R; i++)
             for (int j = 1; j <= C; j++)
                 fscanf(fpLoadRp, "%d", &rp[i][j].belong);
+        if (std::chrono::steady_clock::now().time_since_epoch() - lst < std::chrono::milliseconds(1000))
+            continue;
+        spd = allt - lstt;
+        if (savet) eta = (savet - allt) / spd;
+        lstt = allt;
+        lst = std::chrono::steady_clock::now().time_since_epoch();
     }
     clearall();
     int input = 0;
