@@ -13,7 +13,7 @@ vector<vector<block>> rep[200001];
 
 inline void printRpMsg() {
     gotoxy(R + 1, 1);
-    printf("Turn %d%c %.3lf%", nowt / 2, (nowt % 2? '.' : ' '), 100.0 * nowt / allt);
+    printf("Turn %d%c %.3lf%%", nowt / 2, (nowt % 2? '.' : ' '), 100.0 * nowt / allt);
     gotoxy(R + 2, 1);
     printf("Team    Land  Army");
     struct node {int army, land, team;} p[20];
@@ -53,7 +53,7 @@ inline void printProgress() {
     for (int i = 1; i <= 100 - int(progress); i++)
         putchar(' ');
     putchar(']');
-    printf(" %.3lf%\n", progress);
+    printf(" %.3lf%%\n", progress);
     gotoxy(4, 1);
     printf("%d turns/s", spd / 2);
     if (eta) printf(" ETA %dm%ds", eta / 60, eta % 60);
