@@ -44,3 +44,7 @@ run*.bat
 
 *.lg*
 *.txt
+
+# Links
+
+*.lnk
