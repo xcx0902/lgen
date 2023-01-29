@@ -81,7 +81,7 @@ draw:
                 writeMap();
                 return;
             case 'c':
-                gotoxy(R + 2, 93);
+                gotoxy(R + 2, 144);
                 clearline();
                 fflush(stdout);
                 scanf("%lld", &army);
