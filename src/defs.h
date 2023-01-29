@@ -13,6 +13,7 @@
 #include <algorithm>
 
 #define ll long long
+#define BOT mainBot
 
 // Random generator
 
