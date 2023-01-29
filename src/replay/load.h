@@ -47,7 +47,7 @@ inline void loadMap(const vector<vector<block>> &mp) {
 
 inline void printProgress() {
     double progress = 100.0 * allt / savet;
-    gotoxy(3, 1);
+    gotoxy(4, 1);
     putchar('[');
     for (int i = 1; i <= int(progress); i++)
         putchar('#');
@@ -55,7 +55,7 @@ inline void printProgress() {
         putchar(' ');
     putchar(']');
     printf(" %.3lf%%\n", progress);
-    gotoxy(4, 1);
+    gotoxy(5, 1);
     printf("%d turns/s", spd / 2);
     if (eta) printf(" ETA %dm%ds", eta / 60, eta % 60);
     clearline();
@@ -63,11 +63,21 @@ inline void printProgress() {
 
 inline void loadReplay() {
     printf("Input replay name: ");
+inputRpName:
     scanf("%s", loadRpName);
+    if (_access(("replay/" + std::string(loadRpName) + ".lgreplay").c_str(), 0) == -1) {
+        gotoxy(2, 1);
+        clearline();
+        printf("You don't have this replay, please enter a valid replay name");
+        gotoxy(1, 20);
+        clearline();
+        goto inputRpName;
+    }
     fpLoadRp = fopen(("replay/" + std::string(loadRpName) + ".lgreplay").c_str(), "r");
-    printf("Loaded replay %s\n", ("replay/" + std::string(loadRpName) + ".lgreplay").c_str());
+    clearline();
+    printf("Loading replay %s\n", ("replay/" + std::string(loadRpName) + ".lgreplay").c_str());
     printf("Press any key to continue... ");
-    getch(); clearall();
+    getch();
     fscanf(fpLoadRp, "%d %d %d %d", &R, &C, &players, &savet);
     for (int i = 1; i <= R; i++)
         for (int j = 1; j <= C; j++)
@@ -75,11 +85,11 @@ inline void loadReplay() {
     for (int i = 1; i <= R; i++)
         for (int j = 1; j <= C; j++)
             fscanf(fpLoadRp, "%d", &map[i][j].type);
-    printf("Loading replay, it will take a while...");
     std::chrono::nanoseconds lst = std::chrono::steady_clock::now().time_since_epoch();
     setvbuf(stdout, nullptr, _IOFBF, 5000000);
     while (fscanf(fpLoadRp, "%d", &allt) != EOF) {
-        gotoxy(2, 1);
+        gotoxy(3, 1);
+        clearline();
         printf("Loading turn %d%c", allt / 2, (allt % 2? '.' : ' '));
         if (savet) printProgress();
         fflush(stdout);
