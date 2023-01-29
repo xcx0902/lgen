@@ -135,7 +135,7 @@ inline void selectReplay() {
 
 int main() {
     ShowWindow(hwnd, SW_MAXIMIZE);
-    system("title Local Generals v1.2.0");
+    system("title Local Generals v1.2.1");
     initattr();
     hideCursor();
     printf("Welcome to Local Generals!\n");
