@@ -76,6 +76,7 @@ inline void loadReplay() {
             fscanf(fpLoadRp, "%d", &map[i][j].type);
     printf("Loading replay, it will take a while...");
     std::chrono::nanoseconds lst = std::chrono::steady_clock::now().time_since_epoch();
+    setvbuf(stdout, nullptr, _IOFBF, 5000000);
     while (fscanf(fpLoadRp, "%d", &allt) != EOF) {
         gotoxy(2, 1);
         printf("Loading turn %d%c", allt / 2, (allt % 2? '.' : ' '));
@@ -100,7 +101,6 @@ inline void loadReplay() {
     }
     clearall();
     int input = 0;
-    setvbuf(stdout, nullptr, _IOFBF, 5000000);
     while (1) {
         gotoxy(1, 1);
         printMap(0, {0, 0}, 1);
