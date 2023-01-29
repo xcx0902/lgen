@@ -12,9 +12,9 @@ inline int selectSpeed() {
     printf("Select game speed: \n");
     for (int i = 1; i <= 7; i++)
         printf("   %s\n", delays[i]);
-    gotoxy(2, 1);
+    gotoxy(5, 1);
     printf(">>");
-    int choice = 1, input = 0;
+    int choice = 4, input = 0;
     while (input != 13) {
         input = getch();
         gotoxy(choice + 1, 1);
