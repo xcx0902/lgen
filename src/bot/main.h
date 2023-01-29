@@ -6,7 +6,6 @@
 
 namespace mainBot {
     int mainBot(int id, defPlayer pos) {
-        static int swampDir[20] = {3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3};
         if (map[pos.x][pos.y].belong != id || map[pos.x][pos.y].army == 0) return 0;
         struct node {
             int to, belong, type;
