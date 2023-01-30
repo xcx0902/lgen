@@ -9,7 +9,7 @@ using std::vector;
 int allt, nowt = 2, savet, lstt, autoPlay = 0, spd, eta;
 FILE *fpLoadRp;
 char loadRpName[1000];
-vector<vector<block>> rep[200001];
+vector<vector<vector<block>>> rep;
 
 inline void printRpMsg() {
     gotoxy(R + 1, 1);
@@ -79,6 +79,7 @@ inputRpName:
     printf("Press any key to continue... ");
     getch();
     fscanf(fpLoadRp, "%d %d %d %d", &R, &C, &players, &savet);
+    if (savet) rep.resize(savet + 1);
     for (int i = 1; i <= R; i++)
         for (int j = 1; j <= C; j++)
             fscanf(fpLoadRp, "%d", &map[i][j].army);
@@ -93,6 +94,7 @@ inputRpName:
         printf("Loading turn %d%c", allt / 2, (allt % 2? '.' : ' '));
         if (savet) printProgress();
         fflush(stdout);
+        if (!savet) rep.resize(allt + 1);
         vector<vector<block>> &rp = rep[allt];
         rp.resize(R + 1);
         for (int i = 1; i <= R; i++)
