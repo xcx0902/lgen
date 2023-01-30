@@ -4,6 +4,7 @@
 #include "defs.h"
 #include "map/defs.h"
 #include "bot/main.h"
+#include "bot/bot1.h"
 #include "replay/create.h"
 
 int turn, msgCnt;

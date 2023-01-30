@@ -1,5 +1,5 @@
-#ifndef __LGEN_BOT_MAIN_H
-#define __LGEN_BOT_MAIN_H
+#ifndef __LGEN_BOT_BOT1_H
+#define __LGEN_BOT_BOT1_H
 
 #include "../defs.h"
 #include "../map/defs.h"
