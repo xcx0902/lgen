@@ -211,7 +211,7 @@ inline void runGame() {
                 case int('e'): if (!moves.empty()) moves.pop_back(); break;
                 case int('q'): moves.clear(); break;
                 case 27:
-                    if (useRep) setTurn(turn);
+                    if (useRep && !gameEnd) setTurn(turn);
                     MessageBoxA(nullptr, "YOU QUIT THE GAME.", "EXIT", MB_OK);
                     return;
                 case int('\b'):
@@ -260,6 +260,7 @@ inline void runGame() {
                 ed |= (isAlive[i] << i);
             if (__builtin_popcount(ed) == 1) {
                 MessageBoxA(nullptr, ("PLAYER " + team[std::__lg(ed)].name + " WON!" + "\n" + "THE GAME WILL CONTINUE." + "\n" + "YOU CAN PRESS [ESC] TO EXIT.").c_str(), "GAME END", MB_OK);
+                if (useRep) setTurn(turn);
                 gameEnd = 1;
                 cheatCode = ((1 << players) - 1) << 1;
                 addMessage(turn / 2, std::__lg(ed), "WON!");
@@ -268,7 +269,7 @@ inline void runGame() {
         gotoxy(1, 1);
         printMap(cheatCode, pos[1]);
         printMsg();
-        if (useRep) saveReplay(turn);
+        if (useRep && !gameEnd) saveReplay(turn);
         fflush(stdout);
         lst = std::chrono::steady_clock::now().time_since_epoch();
     }
