@@ -143,8 +143,8 @@ inputRpName:
                 }
             }
         }
-        if (autoPlay && nowt < allt)
-            nowt++; 
+        if (nowt == allt && autoPlay) autoPlay = 0;
+        if (autoPlay) nowt++; 
         loadMap(rep[nowt]);
     }
 }
