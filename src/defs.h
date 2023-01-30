@@ -64,13 +64,13 @@ inline void underline() { fputs("\033[4m", stdout); }
 
 inline int initattr() {
     HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
-    if(hOut == INVALID_HANDLE_VALUE)
+    if (hOut == INVALID_HANDLE_VALUE)
         return GetLastError();
     DWORD dwMode = 0;
-    if(!GetConsoleMode(hOut, &dwMode))
+    if (!GetConsoleMode(hOut, &dwMode))
         return GetLastError();
     dwMode |= 0x0004;
-    if(!SetConsoleMode(hOut, dwMode))
+    if (!SetConsoleMode(hOut, dwMode))
         return GetLastError();
     return 0;
 }
