@@ -1,5 +1,6 @@
 #include "defs.h"
 #include "game.h"
+#include "config.h"
 #include "map/defs.h"
 #include "map/create.h"
 #include "map/draw.h"
@@ -86,7 +87,10 @@ inline void selectMap() {
         gotoxy(choice + 1, 1);
         printf(">>");
     }
-    if (choice == 1) createStandardMap();
+    if (choice == 1) {
+        strcpy(mapName, "__STANDARD__");
+        createStandardMap();
+    }
     else {
         gotoxy(5, 1);
         char name[1000];
@@ -101,6 +105,7 @@ inputMapName:
             clearline();
             goto inputMapName;
         }
+        strcpy(mapName, name);
         readMap(name);
     }
 }
@@ -133,6 +138,66 @@ inline void selectReplay() {
     printf("Your replay will save to: %s.lgreplay\n", repName);
 }
 
+inline bool selectConfig() {
+    printf("Do you want to use a saved config? \n");
+    int choice = 2, input = 0;
+    gotoxy(2, 4); printf("Yes");
+    gotoxy(3, 4); printf("No");
+    gotoxy(3, 1); printf(">>");
+    while (input != 13) {
+        input = getch();
+        gotoxy(choice + 1, 1);
+        printf("  ");
+        switch (tolower(input)) {
+            case 'w': if (choice > 1) choice--; break;
+            case 's': if (choice < 2) choice++; break;
+        }
+        gotoxy(choice + 1, 1);
+        printf(">>");
+    }
+    if (choice == 2) return false;
+    gotoxy(5, 1);
+    char configName[1000];
+    printf("Please input your config name (without prefix 'config/' and suffic '.lgconfig'): ");
+inputConfigName:
+    scanf("%s", configName);
+    if (_access(("config/" + std::string(configName) + ".lgconfig").c_str(), 0) == -1) {
+        gotoxy(6, 1);
+        clearline();
+        printf("You don't have this config, please enter a valid config name");
+        gotoxy(5, 82);
+        clearline();
+        goto inputConfigName;
+    }
+    readConfig(configName);
+    return true;
+}
+
+inline void selectSaveConfig() {
+    printf("Do you want to save your choice as a config? \n");
+    int choice = 1, input = 0;
+    gotoxy(2, 4); printf("Yes");
+    gotoxy(3, 4); printf("No");
+    gotoxy(2, 1); printf(">>");
+    while (input != 13) {
+        input = getch();
+        gotoxy(choice + 1, 1);
+        printf("  ");
+        switch (tolower(input)) {
+            case 'w': if (choice > 1) choice--; break;
+            case 's': if (choice < 2) choice++; break;
+        }
+        gotoxy(choice + 1, 1);
+        printf(">>");
+    }
+    if (choice == 2) return;
+    gotoxy(5, 1);
+    char configName[1000];
+    printf("Please input your config name: ");
+    scanf("%s", configName);
+    writeConfig(configName);
+}
+
 int main() {
     ShowWindow(hwnd, SW_MAXIMIZE);
     system("title Local Generals v1.2.2");
@@ -158,6 +223,11 @@ int main() {
     if (stat != 0)
         return 0;
     getch();
+    clearall();
+    if (selectConfig()) {
+        clearall();
+        goto gameStart;
+    }
     clearall();
     delay = selectSpeed();
     gotoxy(9, 1);
@@ -187,6 +257,9 @@ inputPlayers:
     clearall();
     selectReplay();
     clearall();
+    selectSaveConfig();
+    clearall();
+gameStart:
     printf("Press any key to start the game...");
     getch();
     clearall();
