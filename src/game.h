@@ -238,7 +238,7 @@ inline void runGame() {
             moves.pop_front();
         for (int i = 2; i <= players; i++) {
             if (!isAlive[i]) continue;
-            move(i, BOT::BOT(i, pos[i]), pos[i]);
+            move(i, BOT::BOT(i, pos[i], turn), pos[i]);
         }
         flushMove();
         if (cheatCode != ((1 << players) - 1) << 1) {
