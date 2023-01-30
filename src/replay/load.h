@@ -12,10 +12,17 @@ char loadRpName[1000];
 vector<vector<vector<block>>> rep;
 
 inline void printRpMsg() {
+    double progress = 100.0 * nowt / allt;
     gotoxy(R + 1, 1);
-    printf("Turn %d%c %.3lf%%", nowt / 2, (nowt % 2? '.' : ' '), 100.0 * nowt / allt);
+    printf("Turn %d%c %.3lf%%\n", nowt / 2, (nowt % 2? '.' : ' '), progress);
+    putchar('[');
+    for (int i = 1; i <= int(progress); i++)
+        putchar('#');
+    for (int i = 1; i <= 100 - int(progress); i++)
+        putchar(' ');
+    putchar(']');
     clearline();
-    gotoxy(R + 2, 1);
+    gotoxy(R + 3, 1);
     printf("Team    Land  Army");
     struct node {int army, land, team;} p[20];
     for (int i = 1; i <= players; i++)
@@ -29,12 +36,12 @@ inline void printRpMsg() {
     for (int i = 1; i <= players; i++) {
         int t = p[i].team;
         setfcolor(team[t].color);
-        gotoxy(R + i + 2, 1);
+        gotoxy(R + i + 3, 1);
         clearline();
         printf("%s", team[t].name.c_str());
-        gotoxy(R + i + 2, 9);
+        gotoxy(R + i + 3, 9);
         printf("%d", p[i].land);
-        gotoxy(R + i + 2, 15);
+        gotoxy(R + i + 3, 15);
         printf("%d", p[i].army);
     }
 }
