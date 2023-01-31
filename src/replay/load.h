@@ -48,8 +48,11 @@ inline void printRpMsg() {
 
 inline void loadMap(const vector<vector<block>> &mp) {
     for (int i = 1; i <= R; i++)
-        for (int j = 1; j <= C; j++)
+        for (int j = 1; j <= C; j++) {
             map[i][j].army = mp[i][j].army, map[i][j].belong = mp[i][j].belong;
+            if (map[i][j].type == 3 && (gens[map[i][j].belong].x != i || gens[map[i][j].belong].y != j))
+                map[i][j].type = 4;
+        }
 }
 
 inline void printProgress() {
@@ -87,6 +90,8 @@ inputRpName:
     getch();
     fscanf(fpLoadRp, "%d %d %d %d", &R, &C, &players, &savet);
     if (savet) rep.resize(savet + 1);
+    for (int i = 1; i <= players; i++)
+        fscanf(fpLoadRp, "%d %d", &gens[i].x, &gens[i].y);
     for (int i = 1; i <= R; i++)
         for (int j = 1; j <= C; j++)
             fscanf(fpLoadRp, "%d", &map[i][j].army);

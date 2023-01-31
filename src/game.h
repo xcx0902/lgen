@@ -10,7 +10,7 @@
 int turn, msgCnt;
 bool gameEnd;
 defMessage msg[205];
-defPlayer gens[20], pos[20];
+defPlayer pos[20];
 std::deque<defMove> todoMove;
 
 inline void addMessage(int turn, int id, std::string message) {

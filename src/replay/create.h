@@ -14,6 +14,8 @@ void initReplay() {
     strcpy(repName, ("replay/" + std::string(repName) + ".lgreplay").c_str());
     fpCreateRep = fopen(repName, "w");
     fprintf(fpCreateRep, "%d %d %d %d              \n", R, C, players, 0);
+    for (int i = 1; i <= players; i++)
+        fprintf(fpCreateRep, "%d %d\n", gens[i].x, gens[i].y);
     for (int i = 1; i <= R; i++) {
         for (int j = 1; j <= C; j++)
             fprintf(fpCreateRep, "%d ", map[i][j].army);

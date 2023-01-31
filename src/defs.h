@@ -125,6 +125,8 @@ struct defPlayer {
     int x, y;
 };
 
+defPlayer gens[20];
+
 struct defMessage {
     int turn, id;
     std::string msg;
