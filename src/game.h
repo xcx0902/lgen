@@ -123,12 +123,15 @@ void flushMove() {
         todoMove.pop_front();
         if (!isAlive[p.id]) continue;
         if (map[p.from.x][p.from.y].belong != p.id) continue;
+        int leftArmy = 1;
+        if (map[p.from.x][p.from.y].type == 3)
+            leftArmy = map[p.from.x][p.from.y].army >> 1;
         if (map[p.to.x][p.to.y].belong == p.id) {
-            map[p.to.x][p.to.y].army += map[p.from.x][p.from.y].army - 1;
-            map[p.from.x][p.from.y].army = 1;
+            map[p.to.x][p.to.y].army += map[p.from.x][p.from.y].army - leftArmy;
+            map[p.from.x][p.from.y].army = leftArmy;
         } else {
-            map[p.to.x][p.to.y].army -= map[p.from.x][p.from.y].army - 1;
-            map[p.from.x][p.from.y].army = 1;
+            map[p.to.x][p.to.y].army -= map[p.from.x][p.from.y].army - leftArmy;
+            map[p.from.x][p.from.y].army = leftArmy;
             if (map[p.to.x][p.to.y].army < 0) {
                 map[p.to.x][p.to.y].army = -map[p.to.x][p.to.y].army;
                 int t = map[p.to.x][p.to.y].belong;
