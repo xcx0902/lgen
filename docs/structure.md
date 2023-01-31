@@ -2,6 +2,8 @@
 
 bot
 > [main.h](bot_main.md)
+>
+> [bot1.h](bot_bot1.md)
 
 map
 > [create.h](map_create.md)
@@ -15,9 +17,10 @@ replay
 >
 > [load.h](replay_load.md)
 
-main
-> [defs.h](defs.md)
->
-> [games.h](games.md)
->
-> [main.cpp](main.md)
+[config.h](config.md)
+
+[defs.h](defs.md)
+
+[games.h](games.md)
+
+[main.cpp](main.md)
