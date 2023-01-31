@@ -94,7 +94,7 @@ inline void selectMap() {
     else {
         gotoxy(5, 1);
         char name[1000];
-        printf("Enter map name (without prefix 'map/' and suffic '.lgmap'): ");
+        printf("Enter map name (without prefix 'map/' and suffix '.lgmap'): ");
 inputMapName:
         scanf("%s", name);
         if (_access(("map/" + std::string(name) + ".lgmap").c_str(), 0) == -1) {
@@ -158,7 +158,7 @@ inline bool selectConfig() {
     if (choice == 2) return false;
     gotoxy(5, 1);
     char configName[1000];
-    printf("Please input your config name (without prefix 'config/' and suffic '.lgconfig'): ");
+    printf("Please input your config name (without prefix 'config/' and suffix '.lgconfig'): ");
 inputConfigName:
     scanf("%s", configName);
     if (_access(("config/" + std::string(configName) + ".lgconfig").c_str(), 0) == -1) {
