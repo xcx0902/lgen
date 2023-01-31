@@ -18,13 +18,11 @@ void createStandardMap(int N = -1, int M = -1) {
             map[i][j].army = map[i][j].visible = 0;
             if (!x1) {
                 if (f < 8 - x2) map[i][j].type = 2;
-                else if (f < 9) map[i][j].type = 1;
                 else if (f < 18) map[i][j].type = 0;
                 else if (f < 19) map[i][j].type = 3;
                 else map[i][j].type = 4, map[i][j].army = random(30, 40);
             } else {
-                if (f < 1 + x2) map[i][j].type = 1;
-                else if (f < 18) map[i][j].type = 0;
+                if (f < 18) map[i][j].type = 0;
                 else if (f < 19) map[i][j].type = 3;
                 else map[i][j].type = 4, map[i][j].army = random(30, 40);
             }
