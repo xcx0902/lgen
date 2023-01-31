@@ -85,7 +85,7 @@ struct block {
     ll army;
 };
 
-int R, C, delay, cheatCode, players, messages;
+int R, C, delay, cheatCode, players, isAlive[20];
 char mapName[1000];
 const int MAX_SIZE = 500;
 block map[MAX_SIZE + 5][MAX_SIZE + 5];

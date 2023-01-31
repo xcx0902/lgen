@@ -8,7 +8,7 @@
 #include "replay/create.h"
 
 int turn, msgCnt;
-bool gameEnd, isAlive[20];
+bool gameEnd;
 defMessage msg[205];
 defPlayer gens[20], pos[20];
 std::deque<defMove> todoMove;
