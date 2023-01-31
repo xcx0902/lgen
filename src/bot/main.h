@@ -59,7 +59,7 @@ namespace mainBot {
                 gen[id][i].army = (ll)(1e18), killed++;
         std::sort(gen[id] + 1, gen[id] + found[id] + 1);
         found[id] -= killed;
-        if (found[id]) { // found a gen
+        if (found[id] && random(2)) { // found a gen: every 2 turns to attack
             // gotoxy(R + 1 + players + id, 1);
             // clearline();
             // printTeam(id);
@@ -82,9 +82,9 @@ namespace mainBot {
             else if (p[cnt].type != 1 && p[cnt].belong == id) // my plain/city
                 p[cnt].army = -p[cnt].army-random(10), p[cnt].del = -p[cnt].del;
             if (p[cnt].type == 4 && p[cnt].belong != id) // other's city
-                p[cnt].army = 2 * p[cnt].army - (ll)(1e16), (random(4)? 0 : p[cnt].del = 0);
+                p[cnt].army = 2 * p[cnt].army - (ll)(1e16) - random(10), (random(4)? 0 : p[cnt].del = 0);
             else if (p[cnt].type == 0 && p[cnt].belong != id) // other's plain
-                p[cnt].army = p[cnt].army - (ll)(1e16);
+                p[cnt].army = p[cnt].army - (ll)(1e16) - random(10);
             else if (p[cnt].type == 1) // swamp
                 p[cnt].del = 10, p[cnt].army = (ll)(1e17);
             else if (p[cnt].type == 3 && p[cnt].belong != id) { // other's gen
