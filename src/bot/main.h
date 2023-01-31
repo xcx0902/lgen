@@ -47,7 +47,7 @@ namespace mainBot {
     int mainBot(int id, defPlayer pos, int turn) {
         cnt = 0;
         if (map[pos.x][pos.y].belong != id || map[pos.x][pos.y].army == 0) return 0;
-        if (map[pos.x][pos.y].belong == id && map[pos.x][pos.y].type == 3 && turn > 150) // my gen
+        if (map[pos.x][pos.y].belong == id && map[pos.x][pos.y].type == 3 && turn > 150 && random(4)) // my gen
             for (int i = 1; i <= 4; i++) {
                 int tx = pos.x + dx[i], ty = pos.y + dy[i];
                 if (map[tx][ty].belong == id && map[tx][ty].type != 1 && map[tx][ty].type != 2 && tx >= 1 && tx <= R && ty >= 1 && ty <= C)
@@ -59,7 +59,7 @@ namespace mainBot {
                 gen[id][i].army = (ll)(1e18), killed++;
         std::sort(gen[id] + 1, gen[id] + found[id] + 1);
         found[id] -= killed;
-        if (found[id] && random(2)) { // found a gen: every 2 turns to attack
+        if (found[id] && map[pos.x][pos.y].army > gen[id][1].army + 100) { // found a gen: if have enough army, attack
             // gotoxy(R + 1 + players + id, 1);
             // clearline();
             // printTeam(id);
@@ -80,13 +80,13 @@ namespace mainBot {
             if (p[cnt].type == 3 && p[cnt].belong == id) // my gen
                 p[cnt].army = p[cnt].del = (ll)(2e18) * (random(4)? 1 : -1);
             else if (p[cnt].type != 1 && p[cnt].belong == id) // my plain/city
-                p[cnt].army = -p[cnt].army-random(10), p[cnt].del = -p[cnt].del;
+                p[cnt].army = -p[cnt].army-random(50), p[cnt].del = -p[cnt].del;
             if (p[cnt].type == 4 && p[cnt].belong != id) // other's city
-                p[cnt].army = 2 * p[cnt].army - (ll)(1e16) - random(10), (random(4)? 0 : p[cnt].del = 0);
+                p[cnt].army = 2 * p[cnt].army - (ll)(1e16) - random(50), (random(4)? 0 : p[cnt].del = 0);
             else if (p[cnt].type == 0 && p[cnt].belong != id) // other's plain
-                p[cnt].army = p[cnt].army - (ll)(1e16) - random(10);
+                p[cnt].army = p[cnt].army - (ll)(1e16) - random(50);
             else if (p[cnt].type == 1) // swamp
-                p[cnt].del = 10, p[cnt].army = (ll)(1e17);
+                p[cnt].del = 5, p[cnt].army = random(-100, 100);
             else if (p[cnt].type == 3 && p[cnt].belong != id) { // other's gen
                 p[cnt].del = -(ll)(1e18), p[cnt].army = -(ll)(1e18);
                 bool flag = false;
