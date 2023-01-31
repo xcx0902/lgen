@@ -49,9 +49,9 @@ inline void printRpMsg() {
 inline void loadMap(const vector<vector<block>> &mp) {
     for (int i = 1; i <= R; i++)
         for (int j = 1; j <= C; j++) {
-            map[i][j].army = mp[i][j].army, map[i][j].belong = mp[i][j].belong;
-            if (map[i][j].type == 3 && (gens[map[i][j].belong].x != i || gens[map[i][j].belong].y != j))
-                map[i][j].type = 4;
+            map[i][j].army = mp[i][j].army;
+            map[i][j].belong = mp[i][j].belong;
+            map[i][j].type = mp[i][j].type;
         }
 }
 
@@ -117,6 +117,11 @@ inputRpName:
         for (int i = 1; i <= R; i++)
             for (int j = 1; j <= C; j++)
                 fscanf(fpLoadRp, "%d", &rp[i][j].belong);
+        for (int i = 1; i <= R; i++)
+            for (int j = 1; j <= C; j++)
+                if (map[i][j].type == 3 && (gens[rp[i][j].belong].x != i || gens[rp[i][j].belong].y != j))
+                    rp[i][j].type = 4;
+                else rp[i][j].type = map[i][j].type;
         if (std::chrono::steady_clock::now().time_since_epoch() - lst < std::chrono::milliseconds(1000))
             continue;
         spd = allt - lstt;
@@ -138,6 +143,14 @@ inputRpName:
                     return;
                 case 'a':
                     autoPlay ^= 1;
+                    break;
+                case 'j':
+                    gotoxy(R + 1, 6);
+                    clearline();
+                    resetattr();
+                    fflush(stdout);
+                    scanf("%d", &nowt);
+                    nowt <<= 1;
                     break;
                 case 224: {
                     int tmp = getch();
