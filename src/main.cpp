@@ -200,7 +200,7 @@ inline void selectSaveConfig() {
 
 int main() {
     ShowWindow(hwnd, SW_MAXIMIZE);
-    system("title Local Generals v1.3.0");
+    system("title Local Generals v1.3.1");
     initattr();
     hideCursor();
     printf("Welcome to Local Generals!\n");
