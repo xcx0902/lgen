@@ -204,7 +204,7 @@ int main() {
     system("title Local Generals v1.3.1");
     initattr();
     hideCursor();
-    setFontSize(16);
+    setFontSize(MAIN_PAGE_FONT_SIZE);
     printf("Welcome to Local Generals!\n");
     printf("Input a number to start: \n");
     printf("0: Start the game\n");
@@ -265,7 +265,7 @@ gameStart:
     printf("Press any key to start the game...");
     getch();
     clearall();
-    setFontSize(8);
+    setFontSize(IN_GAME_FONT_SIZE);
     setvbuf(stdout, nullptr, _IOFBF, 5000000);
     runGame();
     return 0;

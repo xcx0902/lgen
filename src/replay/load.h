@@ -130,7 +130,7 @@ inputRpName:
         lst = std::chrono::steady_clock::now().time_since_epoch();
     }
     clearall();
-    setFontSize(8);
+    setFontSize(IN_GAME_FONT_SIZE);
     int input = 0;
     while (1) {
         gotoxy(1, 1);

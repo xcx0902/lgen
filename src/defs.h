@@ -16,6 +16,9 @@
 #define BOT mainBot
 #define nowTime std::chrono::steady_clock::now().time_since_epoch()
 
+const int MAIN_PAGE_FONT_SIZE = 16;
+const int IN_GAME_FONT_SIZE = 9;
+
 // Random generator
 
 std::mt19937 mtrand(std::chrono::system_clock::now().time_since_epoch().count());
