@@ -201,7 +201,7 @@ inline void selectSaveConfig() {
 
 int main() {
     ShowWindow(hwnd, SW_MAXIMIZE);
-    system("title Local Generals v1.3.1");
+    system("title Local Generals v1.3.2");
     initattr();
     hideCursor();
     setFontSize(MAIN_PAGE_FONT_SIZE);
