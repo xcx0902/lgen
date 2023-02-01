@@ -11,7 +11,7 @@ HWND hwnd = GetConsoleWindow();
 
 inline int selectSpeed() {
     printf("Select game speed: \n");
-    for (int i = 1; i <= 7; i++)
+    for (int i = 1; i <= 8; i++)
         printf("   %s\n", delays[i]);
     gotoxy(5, 1);
     printf(">>");
@@ -22,13 +22,14 @@ inline int selectSpeed() {
         printf("  ");
         switch (tolower(input)) {
             case 'w': if (choice > 1) choice--; break;
-            case 's': if (choice < 7) choice++; break;
+            case 's': if (choice < 8) choice++; break;
         }
         gotoxy(choice + 1, 1);
         printf(">>");
     }
     if (choice == 7) return 0;
-	else return 400 / (1 << (choice - 1));
+	else if (choice == 8) return -1;
+    else return 400 / (1 << (choice - 1));
 }
 
 inline int selectCheatCode() {
@@ -230,7 +231,7 @@ int main() {
     }
     clearall();
     delay = selectSpeed();
-    gotoxy(9, 1);
+    gotoxy(10, 1);
     fprintf(stderr, "delay = %d\n", delay);
     getch();
     clearall();

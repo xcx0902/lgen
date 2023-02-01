@@ -190,9 +190,9 @@ inline void runGame() {
     updateMap();
     printMap(cheatCode, gens[1]);
     std::deque<int> moves;
-    std::chrono::nanoseconds lst = std::chrono::steady_clock::now().time_since_epoch();
+    std::chrono::nanoseconds lst = nowTime;
     while (1) {
-        if (_kbhit()) {
+        if (_kbhit() || delay == -1) {
             int ch = _getch();
             switch(ch = tolower(ch)) {
                 case int(' '): while (getch() != ' '); break;
@@ -233,7 +233,7 @@ inline void runGame() {
                     break;
             }
         }
-        if (std::chrono::steady_clock::now().time_since_epoch() - lst < std::chrono::milliseconds(delay))
+        if (delay != -1 && nowTime - lst < std::chrono::milliseconds(delay))
             continue;
         updateMap();
         while (!moves.empty() && move(1, moves.front(), pos[1]))
@@ -274,7 +274,7 @@ inline void runGame() {
         printMsg();
         if (useRep && !gameEnd) saveReplay(turn);
         fflush(stdout);
-        lst = std::chrono::steady_clock::now().time_since_epoch();
+        lst = nowTime;
     }
 }
 
