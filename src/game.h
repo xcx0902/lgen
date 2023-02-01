@@ -125,7 +125,7 @@ void flushMove() {
         if (map[p.from.x][p.from.y].belong != p.id) continue;
         int leftArmy = 1;
         if (map[p.from.x][p.from.y].type == 3)
-            leftArmy = map[p.from.x][p.from.y].army >> 1;
+            leftArmy = std::max(1LL, map[p.from.x][p.from.y].army >> 1);
         if (map[p.to.x][p.to.y].belong == p.id) {
             map[p.to.x][p.to.y].army += map[p.from.x][p.from.y].army - leftArmy;
             map[p.from.x][p.from.y].army = leftArmy;
