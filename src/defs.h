@@ -102,7 +102,7 @@ struct block {
 
 int R, C, delay, cheatCode, players, isAlive[20];
 char mapName[1000];
-const int MAX_SIZE = 500;
+const int MAX_SIZE = 50;
 block map[MAX_SIZE + 5][MAX_SIZE + 5];
 
 struct defTeam {

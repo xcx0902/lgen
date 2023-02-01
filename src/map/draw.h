@@ -51,17 +51,17 @@ void drawMap() {
     do {
         gotoxy(1, 1);
         clearline();
-        printf("Input map R (<=500): ");
+        printf("Input map R (<=%d): ", MAX_SIZE);
         fflush(stdout);
         scanf("%d", &R);
-    } while (R < 1 || R > 500);
+    } while (R < 1 || R > MAX_SIZE);
     do {
         gotoxy(2, 1);
         clearline();
-        printf("Input map C (<=500): ");
+        printf("Input map C (<=%d): ", MAX_SIZE);
         fflush(stdout);
         scanf("%d", &C);
-    } while (C < 1 || C > 500);
+    } while (C < 1 || C > MAX_SIZE);
 draw:
     clearall();
     setFontSize(IN_GAME_FONT_SIZE);
