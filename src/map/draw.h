@@ -64,6 +64,7 @@ void drawMap() {
     } while (C < 1 || C > 500);
 draw:
     clearall();
+    setFontSize(8);
     setvbuf(stdout, nullptr, _IOFBF, 5000000);
     while (1) {
         gotoxy(1, 1);

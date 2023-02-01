@@ -204,7 +204,7 @@ int main() {
     system("title Local Generals v1.3.1");
     initattr();
     hideCursor();
-    setFontSize(24);
+    setFontSize(16);
     printf("Welcome to Local Generals!\n");
     printf("Input a number to start: \n");
     printf("0: Start the game\n");
