@@ -15,7 +15,7 @@ void writeMap() {
     fprintf(fpMap, "%d %d\n", R, C);
     for (int i = 1; i <= R; i++) {
         for (int j = 1; j <= C; j++)
-            fprintf(fpMap, "%d ", map[i][j].army);
+            fprintf(fpMap, "%lld ", map[i][j].army);
         fprintf(fpMap, "\n");
     }
     for (int i = 1; i <= R; i++) {

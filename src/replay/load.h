@@ -94,7 +94,7 @@ inputRpName:
         fscanf(fpLoadRp, "%d %d", &gens[i].x, &gens[i].y);
     for (int i = 1; i <= R; i++)
         for (int j = 1; j <= C; j++)
-            fscanf(fpLoadRp, "%d", &map[i][j].army);
+            fscanf(fpLoadRp, "%lld", &map[i][j].army);
     for (int i = 1; i <= R; i++)
         for (int j = 1; j <= C; j++)
             fscanf(fpLoadRp, "%d", &map[i][j].type);
@@ -113,7 +113,7 @@ inputRpName:
             rp[i].resize(C + 1);
         for (int i = 1; i <= R; i++)
             for (int j = 1; j <= C; j++)
-                fscanf(fpLoadRp, "%d", &rp[i][j].army);
+                fscanf(fpLoadRp, "%lld", &rp[i][j].army);
         for (int i = 1; i <= R; i++)
             for (int j = 1; j <= C; j++)
                 fscanf(fpLoadRp, "%d", &rp[i][j].belong);

@@ -34,7 +34,7 @@ void readMap(char *name) {
     fscanf(fp, "%d %d", &R, &C);
     for (int i = 1; i <= R; i++)
         for (int j = 1; j <= C; j++)
-            fscanf(fp, "%d", &map[i][j].army);
+            fscanf(fp, "%lld", &map[i][j].army);
     for (int i = 1; i <= R; i++)
         for (int j = 1; j <= C; j++)
             fscanf(fp, "%d", &map[i][j].type);

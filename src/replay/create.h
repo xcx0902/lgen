@@ -18,7 +18,7 @@ void initReplay() {
         fprintf(fpCreateRep, "%d %d\n", gens[i].x, gens[i].y);
     for (int i = 1; i <= R; i++) {
         for (int j = 1; j <= C; j++)
-            fprintf(fpCreateRep, "%d ", map[i][j].army);
+            fprintf(fpCreateRep, "%lld ", map[i][j].army);
         fprintf(fpCreateRep, "\n");
     }
     for (int i = 1; i <= R; i++) {
@@ -32,7 +32,7 @@ void saveReplay(int turn) {
     fprintf(fpCreateRep, "%d\n", turn);
     for (int i = 1; i <= R; i++) {
         for (int j = 1; j <= C; j++)
-            fprintf(fpCreateRep, "%d ", map[i][j].army);
+            fprintf(fpCreateRep, "%lld ", map[i][j].army);
         fprintf(fpCreateRep, "\n");
     }
     for (int i = 1; i <= R; i++) {
