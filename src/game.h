@@ -12,6 +12,7 @@ bool gameEnd;
 defMessage msg[205];
 defPlayer pos[20];
 std::deque<defMove> todoMove;
+int (*bot[10])(int, defPlayer, int) = {NULL, mainBot::mainBot, bot1::bot1};
 
 inline void addMessage(int turn, int id, std::string message) {
     ++msgCnt;
@@ -242,7 +243,7 @@ inline void runGame() {
             moves.pop_front();
         for (int i = 2; i <= players; i++) {
             if (!isAlive[i]) continue;
-            move(i, BOT::BOT(i, pos[i], turn), pos[i]);
+            move(i, bot[botId](i, pos[i], turn), pos[i]);
         }
         flushMove();
         if (cheatCode != ((1 << players) - 1) << 1) {

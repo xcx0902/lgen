@@ -13,7 +13,6 @@
 #include <algorithm>
 
 #define ll long long
-#define BOT mainBot
 #define nowTime std::chrono::steady_clock::now().time_since_epoch()
 
 const int MAIN_PAGE_FONT_SIZE = 16;
@@ -100,7 +99,7 @@ struct block {
     ll army;
 };
 
-int R, C, delay, cheatCode, players, isAlive[20];
+int R, C, delay, cheatCode, players, botId, isAlive[20];
 char mapName[1000];
 const int MAX_SIZE = 50;
 block map[MAX_SIZE + 5][MAX_SIZE + 5];
@@ -154,6 +153,7 @@ struct defMove {
 
 const char suf[20] = {0, 'H', 'K', 'W', 'L', 'M', 'Q', 'I', 'G', 'B', 'N', 'T'};
 const char* delays[10] = {0, "1x", "2x", "4x", "8x", "16x", "32x", "FAST", "AUTO"};
+const char* bots[10] = {0, "Main Bot", "Bot 1"};
 
 const int dx[5] = {0, -1, 0, 1, 0};
 const int dy[5] = {0, 0, -1, 0, 1};

@@ -10,7 +10,7 @@ FILE *fpConfig;
 void readConfig(char *filename) {
     fpConfig = fopen(("config/" + std::string(filename) + ".lgconfig").c_str(), "r");
     fscanf(fpConfig, "%s\n", mapName);
-    fscanf(fpConfig, "%d %d %d\n", &delay, &players, &cheatCode);
+    fscanf(fpConfig, "%d %d %d %d\n", &delay, &players, &cheatCode, &botId);
     fscanf(fpConfig, "%d", &useRep);
     if (useRep) fscanf(fpConfig, "%s", repName);
     if (strcmp(mapName, "__STANDARD__") == 0) createStandardMap();
@@ -22,7 +22,7 @@ void writeConfig(char *filename) {
         _mkdir("config/");
     fpConfig = fopen(("config/" + std::string(filename) + ".lgconfig").c_str(), "w");
     fprintf(fpConfig, "%s\n", mapName);
-    fprintf(fpConfig, "%d %d %d\n", delay, players, cheatCode);
+    fprintf(fpConfig, "%d %d %d %d\n", delay, players, cheatCode, botId);
     fprintf(fpConfig, "%d\n", useRep);
     if (useRep) fprintf(fpConfig, "%s\n", repName);
 }

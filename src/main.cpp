@@ -71,6 +71,27 @@ inputCheatCode:
     return ret;
 }
 
+inline int selectBot() {
+    printf("Select bot: \n");
+    for (int i = 1; i <= 2; i++)
+        printf("   %s\n", bots[i]);
+    gotoxy(2, 1);
+    printf(">>");
+    int choice = 1, input = 0;
+    while (input != 13) {
+        input = getch();
+        gotoxy(choice + 1, 1);
+        printf("  ");
+        switch (tolower(input)) {
+            case 'w': if (choice > 1) choice--; break;
+            case 's': if (choice < 2) choice++; break;
+        }
+        gotoxy(choice + 1, 1);
+        printf(">>");
+    }
+    return choice;
+}
+
 inline void selectMap() {
     printf("Select map: \n");
     int choice = 1, input = 0;
@@ -256,6 +277,8 @@ inputPlayers:
     getch();
     clearall();
     selectMap();
+    clearall();
+    botId = selectBot();
     clearall();
     selectReplay();
     clearall();
