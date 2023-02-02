@@ -153,6 +153,7 @@ inputRpName:
                     scanf("%d", &nowt);
                     nowt <<= 1;
                     nowt = std::min(nowt, allt);
+                    nowt = std::max(nowt, 2);
                     break;
                 case 224: {
                     int tmp = getch();
