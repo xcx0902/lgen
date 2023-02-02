@@ -23,7 +23,7 @@ namespace mainBot {
             return army < b.army;
         }
     } gen[20][20];
-    int cnt, found[20];
+    int cnt, swamps, lstSwamp, found[20];
     bool vis[MAX_SIZE + 5][MAX_SIZE + 5];
     struct Node {
         defPlayer pos;
@@ -46,6 +46,13 @@ namespace mainBot {
             }
         }
     }
+    inline int countSwamp() {
+        if (swamps) return swamps;
+        for (int i = 1; i <= R; i++)
+            for (int j = 1; j <= C; j++)
+                swamps += map[i][j].type == 1;
+        return swamps;
+    }
     int mainBot(int id, defPlayer pos, int turn) {
         cnt = 0;
         if (map[pos.x][pos.y].belong != id || map[pos.x][pos.y].army == 0) return 0;
@@ -55,6 +62,9 @@ namespace mainBot {
                 if (map[tx][ty].belong == id && map[tx][ty].type != 1 && map[tx][ty].type != 2 && tx >= 1 && tx <= R && ty >= 1 && ty <= C)
                     return i + 4;
             }
+        if (map[pos.x][pos.y].type == 1)
+            lstSwamp++;
+        else lstSwamp = 0;
         for (int i = 1; i <= 4; i++) {
             int tx = pos.x + extdx[i], ty = pos.y + extdy[i];
             if (tx >= 1 && tx <= R && ty >= 1 && ty <= C && map[tx][ty].belong != id && map[tx][ty].type == 3)
@@ -93,7 +103,7 @@ namespace mainBot {
             else if (p[cnt].type == 0 && p[cnt].belong != id) // other's plain
                 p[cnt].army = p[cnt].army - (ll)(1e16) - random(50);
             else if (p[cnt].type == 1) // swamp
-                p[cnt].del = 5, p[cnt].army = random(-50, 150);
+                p[cnt].del = 5, p[cnt].army = random(lstSwamp > 10? 0 : -std::max(100, countSwamp()), 100);
             else if (p[cnt].type == 3 && p[cnt].belong != id) { // other's gen
                 p[cnt].del = -(ll)(1e18), p[cnt].army = -(ll)(1e18);
                 bool flag = false;
