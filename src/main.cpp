@@ -73,7 +73,7 @@ inputCheatCode:
 
 inline int selectBot() {
     printf("Select bot: \n");
-    for (int i = 1; i <= 2; i++)
+    for (int i = 1; i <= 3; i++)
         printf("   %s\n", bots[i]);
     gotoxy(2, 1);
     printf(">>");
@@ -84,7 +84,7 @@ inline int selectBot() {
         printf("  ");
         switch (tolower(input)) {
             case 'w': if (choice > 1) choice--; break;
-            case 's': if (choice < 2) choice++; break;
+            case 's': if (choice < 3) choice++; break;
         }
         gotoxy(choice + 1, 1);
         printf(">>");

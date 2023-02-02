@@ -5,6 +5,7 @@
 #include "map/defs.h"
 #include "bot/main.h"
 #include "bot/bot1.h"
+#include "bot/bot2.h"
 #include "replay/create.h"
 
 int turn, msgCnt;
@@ -12,7 +13,7 @@ bool gameEnd;
 defMessage msg[205];
 defPlayer pos[20];
 std::deque<defMove> todoMove;
-int (*bot[10])(int, defPlayer, int) = {NULL, mainBot::mainBot, bot1::bot1};
+int (*bot[10])(int, defPlayer, int) = {NULL, mainBot::mainBot, bot1::bot1, bot2::bot2};
 
 inline void addMessage(int turn, int id, std::string message) {
     ++msgCnt;

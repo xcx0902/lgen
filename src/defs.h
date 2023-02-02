@@ -153,7 +153,7 @@ struct defMove {
 
 const char suf[20] = {0, 'H', 'K', 'W', 'L', 'M', 'Q', 'I', 'G', 'B', 'N', 'T'};
 const char* delays[10] = {0, "1x", "2x", "4x", "8x", "16x", "32x", "FAST", "AUTO"};
-const char* bots[10] = {0, "Main Bot", "Bot 1"};
+const char* bots[10] = {0, "Main Bot", "Bot 1", "Bot 2"};
 
 const int dx[5] = {0, -1, 0, 1, 0};
 const int dy[5] = {0, 0, -1, 0, 1};
