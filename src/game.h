@@ -115,7 +115,7 @@ void kill(int p1, int p2) {
             }
         }
     int col = team[p2].color;
-    addMessage(turn / 2, p1, ("KILLED PLAYER \033[38;2;" + std::to_string(col / 65536) + ";" + std::to_string(col / 256 % 256) + ";" + std::to_string(col % 256) + "m" + team[p2].name + "."));
+    addMessage(turn / 2, p1, ("KILLED PLAYER \033[38;2;" + std::to_string(col / 65536) + ";" + std::to_string(col / 256 % 256) + ";" + std::to_string(col % 256) + "m" + team[p2].name + "\033[0m\033[38;2;255;255;255m."));
     fflush(stdout);
 }
 
