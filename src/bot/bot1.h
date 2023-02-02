@@ -33,4 +33,4 @@ namespace bot1 {
     }
 }
 
-#endif // __LGEN_BOT_MAIN_H
+#endif // __LGEN_BOT_BOT1_H
