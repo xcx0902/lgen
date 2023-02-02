@@ -10,7 +10,7 @@ namespace mainBot {
     const int extdy[9] = {0, 0, 1, 0, -1, 1, -1, 1, -1};
     defPlayer previousPos[20];
     int checkOrder[5] = {0, 1, 2, 3, 4};
-    int id, armyNow, found[20], visitTime[20][505][505];
+    int armyNow, found[20], visitTime[20][505][505];
     bool vis[MAX_SIZE + 5][MAX_SIZE + 5];
     struct node {
         int x, y, type, army, belong, dir;
@@ -44,8 +44,7 @@ namespace mainBot {
             }
         }
     }
-    int mainBot(int playerId, defPlayer pos, int turn) {
-        id = playerId;
+    int mainBot(int id, defPlayer pos, int turn) {
         armyNow = map[pos.x][pos.y].army;
         visitTime[id][pos.x][pos.y]++;
         if (map[pos.x][pos.y].army == 0 || map[pos.x][pos.y].belong != id) {
