@@ -98,7 +98,7 @@ inputRpName:
     for (int i = 1; i <= R; i++)
         for (int j = 1; j <= C; j++)
             fscanf(fpLoadRp, "%d", &map[i][j].type);
-    std::chrono::nanoseconds lst = std::chrono::steady_clock::now().time_since_epoch();
+    std::chrono::nanoseconds lst = nowTime;
     setvbuf(stdout, nullptr, _IOFBF, 5000000);
     while (fscanf(fpLoadRp, "%d", &allt) != EOF) {
         gotoxy(3, 1);
@@ -122,12 +122,12 @@ inputRpName:
                 if (map[i][j].type == 3 && (gens[rp[i][j].belong].x != i || gens[rp[i][j].belong].y != j))
                     rp[i][j].type = 4;
                 else rp[i][j].type = map[i][j].type;
-        if (std::chrono::steady_clock::now().time_since_epoch() - lst < std::chrono::milliseconds(1000))
+        if (nowTime - lst < std::chrono::milliseconds(1000))
             continue;
         spd = allt - lstt;
         if (savet) eta = (savet - allt) / spd;
         lstt = allt;
-        lst = std::chrono::steady_clock::now().time_since_epoch();
+        lst = nowTime;
     }
     clearall();
     setFontSize(IN_GAME_FONT_SIZE);

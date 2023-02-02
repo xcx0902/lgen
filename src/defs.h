@@ -21,7 +21,7 @@ const int IN_GAME_FONT_SIZE = 9;
 
 // Random generator
 
-std::mt19937 mtrand(std::chrono::system_clock::now().time_since_epoch().count());
+std::mt19937 mtrand(nowTime.count());
 
 inline int random(int k) {
     return mtrand() % k;
