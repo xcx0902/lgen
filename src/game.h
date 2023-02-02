@@ -195,7 +195,7 @@ inline void runGame() {
         if (_kbhit() || delay == -1) {
             int ch = _getch();
             switch(ch = tolower(ch)) {
-                case int(' '): while (getch() != ' '); break;
+                case int(' '): while (delay != -1 && getch() != ' '); break;
                 case int('c'): clearall(); break;
                 case int('w'): moves.emplace_back(1); break;
                 case int('a'): moves.emplace_back(2); break;
