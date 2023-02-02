@@ -6,6 +6,8 @@
 #include <queue>
 
 namespace mainBot {
+    const int extdx[5] = {0, 1, 1, -1, -1};
+    const int extdy[5] = {0, 1, -1, 1, -1};
     struct node {
         int to, belong, type;
         ll army, del;
@@ -53,6 +55,11 @@ namespace mainBot {
                 if (map[tx][ty].belong == id && map[tx][ty].type != 1 && map[tx][ty].type != 2 && tx >= 1 && tx <= R && ty >= 1 && ty <= C)
                     return i + 4;
             }
+        for (int i = 1; i <= 4; i++) {
+            int tx = pos.x + extdx[i], ty = pos.y + extdy[i];
+            if (tx >= 1 && tx <= R && ty >= 1 && ty <= C && map[tx][ty].belong != id && map[tx][ty].type == 3)
+                gen[id][++found[id]] = {map[tx][ty].army, {tx, ty}, map[tx][ty].belong};
+        }
         int killed = 0;
         for (int i = 1; i <= found[id]; i++)
             if (!isAlive[gen[id][i].id])
@@ -86,7 +93,7 @@ namespace mainBot {
             else if (p[cnt].type == 0 && p[cnt].belong != id) // other's plain
                 p[cnt].army = p[cnt].army - (ll)(1e16) - random(50);
             else if (p[cnt].type == 1) // swamp
-                p[cnt].del = 5, p[cnt].army = random(-100, 100);
+                p[cnt].del = 5, p[cnt].army = random(-50, 150);
             else if (p[cnt].type == 3 && p[cnt].belong != id) { // other's gen
                 p[cnt].del = -(ll)(1e18), p[cnt].army = -(ll)(1e18);
                 bool flag = false;
