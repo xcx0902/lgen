@@ -251,7 +251,7 @@ inputSelection:
         return 0;
     }
     if (stat == '3') {
-        system("start https://xcx0902-blog.github.io/2022/02/04/local-generals");
+        system("start https://xcx0902-blog.github.io/2023/02/04/local-generals/");
         goto inputSelection;
     }
     if (stat == 13) {
