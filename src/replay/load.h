@@ -6,7 +6,7 @@
 #include <vector>
 using std::vector;
 
-int allt, nowt = 2, savet, lstt, autoPlay = 0, spd, eta;
+int allt, nowt = 2, savet, lstt, jumpt = 1, autoPlay = 0, spd, eta;
 FILE *fpLoadRp;
 char loadRpName[1000];
 vector<vector<vector<block>>> rep;
@@ -14,7 +14,7 @@ vector<vector<vector<block>>> rep;
 inline void printRpMsg() {
     double progress = 100.0 * nowt / allt;
     gotoxy(R + 1, 1);
-    printf("Turn %d%c %.3lf%%\n", nowt / 2, (nowt % 2? '.' : ' '), progress);
+    printf("Turn %d%c %.3lf%% | Jump Turn = %d\033[K\n", nowt / 2, (nowt % 2? '.' : ' '), progress, jumpt / 2);
     putchar('[');
     for (int i = 1; i <= int(progress); i++)
         putchar('#');
@@ -155,11 +155,26 @@ inputRpName:
                     nowt = std::min(nowt, allt);
                     nowt = std::max(nowt, 2);
                     break;
+                case 'c':
+                    resetattr();
+                    gotoxy(R + 1, 1);
+                    printf("Turn %d%c %.3lf%% | Jump Turn = \033[K", nowt / 2, (nowt % 2? '.' : ' '), 100.0 * nowt / allt);
+                    fflush(stdout);
+                    scanf("%d", &jumpt);
+                    if (jumpt == 0) jumpt = 1;
+                    else jumpt *= 2;
+                    break;
                 case 224: {
                     int tmp = getch();
                     switch (tmp) {
-                        case 75: if (nowt > 2) nowt--; break;
-                        case 77: if (nowt < allt) nowt++; break;
+                        case 75:
+                            if (nowt - jumpt >= 2) nowt -= jumpt;
+                            else nowt = 2;
+                            break;
+                        case 77:
+                            if (nowt + jumpt <= allt) nowt += jumpt;
+                            else nowt = allt;
+                            break;
                     }
                 }
             }
