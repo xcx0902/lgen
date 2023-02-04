@@ -234,23 +234,34 @@ int main() {
     hideCursor();
     setFontSize(MAIN_PAGE_FONT_SIZE);
     printf("Welcome to Local Generals!\n");
-    printf("Input a number to start: \n");
+    printf("Input a character to start: \n");
     printf("0: Start the game\n");
     printf("1: Draw a map\n");
     printf("2: Watch a saved replay\n");
+    printf("3: View the usage of this program\n");
+    printf("Enter: View our GitHub project\n");
     printf("Other: Quit\n");
-    int stat = getch() - '0';
-    if (stat == 1) {
+inputSelection:
+    int stat = getch();
+    if (stat == '1') {
         clearall();
         drawMap();
         return 0;
     }
-    if (stat == 2) {
+    if (stat == '2') {
         clearall();
         loadReplay();
         return 0;
     }
-    if (stat != 0)
+    if (stat == '3') {
+        system("start https://xcx0902-blog.github.io/2022/02/04/local-generals");
+        goto inputSelection;
+    }
+    if (stat == 13) {
+        system("start https://github.com/xcx0902/lgen");
+        goto inputSelection;
+    }
+    if (stat != '0')
         return 0;
     getch();
     clearall();
