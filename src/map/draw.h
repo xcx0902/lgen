@@ -10,7 +10,7 @@ FILE *fpMap;
 char filename[1000];
 defPlayer now = {1, 1};
 
-void writeMap() {
+inline void writeMap() {
     fpMap = fopen(("map/" + std::string(filename) + ".lgmap").c_str(), "w");
     fprintf(fpMap, "%d %d\n", R, C);
     for (int i = 1; i <= R; i++) {
@@ -30,7 +30,7 @@ void writeMap() {
     }
 }
 
-void drawMap() {
+inline void drawMap() {
     if (_access("map/", 0) == -1)
         _mkdir("map/");
     printf("Input your map name: ");

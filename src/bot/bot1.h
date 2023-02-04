@@ -5,7 +5,7 @@
 #include "../map/defs.h"
 
 namespace bot1 {
-    int bot1(int id, defPlayer pos, int turn) {
+    inline int bot1(int id, defPlayer pos, int turn) {
         if (map[pos.x][pos.y].belong != id || map[pos.x][pos.y].army == 0)
             return 0;
         struct node {

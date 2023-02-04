@@ -129,7 +129,7 @@ defTeam team[64] = {
     {"Olive", 0x808000},
 };
 
-void printTeam(int id) {
+inline void printTeam(int id) {
     setfcolor(team[id].color);
     printf("%s", team[id].name.c_str());
     resetattr();

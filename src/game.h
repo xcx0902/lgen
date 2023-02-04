@@ -13,7 +13,7 @@ bool gameEnd;
 defMessage msg[205];
 defPlayer pos[20];
 std::deque<defMove> todoMove;
-int (*bot[10])(int, defPlayer, int) = {NULL, mainBot::mainBot, bot1::bot1, bot2::bot2};
+inline int (*bot[10])(int, defPlayer, int) = {NULL, mainBot::mainBot, bot1::bot1, bot2::bot2};
 
 inline void addMessage(int turn, int id, std::string message) {
     ++msgCnt;
@@ -47,7 +47,7 @@ inline void initGen() {
                 map[i][j].type = 0;
 }
 
-void updateMap() {
+inline void updateMap() {
     turn++;
     for (int i = 1; i <= R; i++)
         for (int j = 1; j <= C; j++) {
@@ -103,7 +103,7 @@ inline int move(int id, int mv, defPlayer& pos) {
     return 0;
 }
 
-void kill(int p1, int p2) {
+inline void kill(int p1, int p2) {
     if (p2 == 1)
         MessageBoxA(nullptr, ("YOU ARE KILLED BY PLAYER " + team[p1].name + " AT TURN " + std::to_string(turn / 2) + ".").c_str(), "", MB_OK);
     isAlive[p2] = 0;
@@ -119,7 +119,7 @@ void kill(int p1, int p2) {
     fflush(stdout);
 }
 
-void flushMove() {
+inline void flushMove() {
     while (!todoMove.empty()) {
         defMove p = todoMove.front();
         todoMove.pop_front();
@@ -150,7 +150,7 @@ void flushMove() {
     }
 }
 
-void printMsg() {
+inline void printMsg() {
     gotoxy(R + 1, 1);
     printf("Turn %d%c", turn / 2, (turn % 2? '.' : ' '));
     gotoxy(R + 2, 1);

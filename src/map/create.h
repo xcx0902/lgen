@@ -3,7 +3,7 @@
 
 #include "defs.h"
 
-void createStandardMap(int N = -1, int M = -1) {
+inline void createStandardMap(int N = -1, int M = -1) {
     if (N < 0) R = random(30, 50); else R = N;
     if (M < 0) C = random(30, 50); else C = M;
     for (int i = 1; i <= R; i++)
@@ -29,7 +29,7 @@ void createStandardMap(int N = -1, int M = -1) {
         }
 }
 
-void readMap(char *name) {
+inline void readMap(char *name) {
     FILE *fp = fopen(("map/" + std::string(name) + ".lgmap").c_str(), "r");
     fscanf(fp, "%d %d", &R, &C);
     for (int i = 1; i <= R; i++)

@@ -53,7 +53,7 @@ namespace bot2 {
                 swamps += map[i][j].type == 1;
         return swamps;
     }
-    int bot2(int id, defPlayer pos, int turn) {
+    inline int bot2(int id, defPlayer pos, int turn) {
         cnt = 0;
         if (map[pos.x][pos.y].belong != id || map[pos.x][pos.y].army == 0) return 0;
         if (map[pos.x][pos.y].belong == id && map[pos.x][pos.y].type == 3 && turn > 150 && random(4)) // my gen

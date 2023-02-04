@@ -44,7 +44,7 @@ namespace mainBot {
             }
         }
     }
-    int mainBot(int id, defPlayer pos, int turn) {
+    inline int mainBot(int id, defPlayer pos, int turn) {
         armyNow = map[pos.x][pos.y].army;
         visitTime[id][pos.x][pos.y]++;
         if (map[pos.x][pos.y].army == 0 || map[pos.x][pos.y].belong != id) {

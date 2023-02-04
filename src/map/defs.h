@@ -3,7 +3,7 @@
 
 #include "../defs.h"
 
-bool isVisible(int x, int y, int cheat) {
+inline bool isVisible(int x, int y, int cheat) {
     if (map[x][y].visible) return true;
     for (int i = -1; i <= 1; i++)
         for (int j = -1; j <= 1; j++)
@@ -12,7 +12,7 @@ bool isVisible(int x, int y, int cheat) {
     return false;
 }
 
-void printNum(bool visible, ll army, int belong, char lc, char rc, char mc = ' ', char rpc = ' ') {
+inline void printNum(bool visible, ll army, int belong, char lc, char rc, char mc = ' ', char rpc = ' ') {
     if (visible) {
         setfcolor(team[belong].color);
         putchar(lc);
@@ -39,7 +39,7 @@ void printNum(bool visible, ll army, int belong, char lc, char rc, char mc = ' '
     resetattr();
 }
 
-void printMap(int cheat, defPlayer player, int visAll = 0) {
+inline void printMap(int cheat, defPlayer player, int visAll = 0) {
     resetattr();
     register int i, j;
     for (i = 1; i <= R; i++) {

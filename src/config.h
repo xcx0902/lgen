@@ -7,7 +7,7 @@
 
 FILE *fpConfig;
 
-void readConfig(char *filename) {
+inline void readConfig(char *filename) {
     fpConfig = fopen(("config/" + std::string(filename) + ".lgconfig").c_str(), "r");
     fscanf(fpConfig, "%s\n", mapName);
     fscanf(fpConfig, "%d %d %d %d\n", &delay, &players, &cheatCode, &botId);
@@ -17,7 +17,7 @@ void readConfig(char *filename) {
     else readMap(mapName);
 }
 
-void writeConfig(char *filename) {
+inline void writeConfig(char *filename) {
     if (_access("config/", 0) == -1)
         _mkdir("config/");
     fpConfig = fopen(("config/" + std::string(filename) + ".lgconfig").c_str(), "w");
