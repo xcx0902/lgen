@@ -76,6 +76,7 @@ inline int selectBot() {
     for (int i = 1; i <= 3; i++)
         printf("   %s\n", bots[i]);
     printf("Press v to view the bot's source code\n");
+    printf("Press d to download the bot's source code\n");
     gotoxy(2, 1);
     printf(">>");
     int choice = 1, input = 0;
@@ -86,7 +87,11 @@ inline int selectBot() {
         switch (tolower(input)) {
             case 'w': if (choice > 1) choice--; break;
             case 's': if (choice < 3) choice++; break;
-            case 'v': system(botSource[choice]); break;
+            case 'v': system(botSourceView[choice]); break;
+            case 'd':
+                gotoxy(7, 1);
+                system(botSourceDownload[choice]);
+                break;
         }
         gotoxy(choice + 1, 1);
         printf(">>");

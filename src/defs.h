@@ -154,10 +154,15 @@ struct defMove {
 const char suf[20] = {0, 'H', 'K', 'W', 'L', 'M', 'Q', 'I', 'G', 'B', 'N', 'T'};
 const char* delays[10] = {0, "1x", "2x", "4x", "8x", "16x", "32x", "FAST", "AUTO"};
 const char* bots[10] = {0, "Main Bot", "Bot 1", "Bot 2"};
-const char* botSource[10] = { 0,
+const char* botSourceView[10] = { 0,
     "start https://github.com/xcx0902/lgen/blob/main/src/bot/main.h",
     "start https://github.com/xcx0902/lgen/blob/main/src/bot/bot1.h",
     "start https://github.com/xcx0902/lgen/blob/main/src/bot/bot2.h"
+};
+const char* botSourceDownload[10] = { 0,
+    "curl --ssl-no-revoke -k -o main.h https://raw.githubusercontent.com/xcx0902/lgen/main/src/bot/main.h",
+    "curl --ssl-no-revoke -k -o bot1.h https://raw.githubusercontent.com/xcx0902/lgen/main/src/bot/bot1.h",
+    "curl --ssl-no-revoke -k -o bot2.h https://raw.githubusercontent.com/xcx0902/lgen/main/src/bot/bot2.h"
 };
 
 const int dx[5] = {0, -1, 0, 1, 0};
