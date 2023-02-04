@@ -33,7 +33,7 @@ inline int selectSpeed() {
 }
 
 inline int selectCheatCode() {
-    printf("Select cheat code: \n");
+    printf("Select cheat code (players you want to see directly): \n");
     int choice = 1, ret = 2;
     gotoxy(2, 1);
     printf(">>");
@@ -45,10 +45,7 @@ inputCheatCode:
         printTeam(i);
     }
     gotoxy(players + 2, 4);
-    if (cheatCode == ((1 << players) - 1) << 1)
-        underline();
-    printf("Select All");
-    resetattr();
+    printf("(Un)Select All");
     gotoxy(players + 3, 4);
     printf("COMPLETE SELECTING");
     while (input != 13) {
