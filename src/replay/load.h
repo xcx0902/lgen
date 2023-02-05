@@ -83,24 +83,29 @@ inputRpName:
         clearline();
         goto inputRpName;
     }
-    fpLoadRp = fopen(("replay/" + std::string(loadRpName) + ".lgreplay").c_str(), "r");
+    fpLoadRp = fopen(("replay/" + std::string(loadRpName) + ".lgreplay").c_str(), "rb");
     clearline();
     printf("Loading replay %s\n", ("replay/" + std::string(loadRpName) + ".lgreplay").c_str());
     printf("Press any key to continue... ");
     getch();
-    fscanf(fpLoadRp, "%d %d %d %d", &R, &C, &players, &savet);
+    binread(fpLoadRp, &R);
+    binread(fpLoadRp, &C);
+    binread(fpLoadRp, &players);
+    binread(fpLoadRp, &savet);
     if (savet) rep.resize(savet + 1);
-    for (int i = 1; i <= players; i++)
-        fscanf(fpLoadRp, "%d %d", &gens[i].x, &gens[i].y);
+    for (int i = 1; i <= players; i++) {
+        binread(fpLoadRp, &gens[i].x);
+        binread(fpLoadRp, &gens[i].y);
+    }
     for (int i = 1; i <= R; i++)
         for (int j = 1; j <= C; j++)
-            fscanf(fpLoadRp, "%lld", &map[i][j].army);
+            binread(fpLoadRp, &map[i][j].army);
     for (int i = 1; i <= R; i++)
         for (int j = 1; j <= C; j++)
-            fscanf(fpLoadRp, "%d", &map[i][j].type);
+            binread(fpLoadRp, &map[i][j].type);
     std::chrono::nanoseconds lst = nowTime;
     setvbuf(stdout, nullptr, _IOFBF, 5000000);
-    while (fscanf(fpLoadRp, "%d", &allt) != EOF) {
+    while (binread(fpLoadRp, &allt)) {
         gotoxy(3, 1);
         clearline();
         printf("Loading turn %d%c", allt / 2, (allt % 2? '.' : ' '));
@@ -113,10 +118,10 @@ inputRpName:
             rp[i].resize(C + 1);
         for (int i = 1; i <= R; i++)
             for (int j = 1; j <= C; j++)
-                fscanf(fpLoadRp, "%lld", &rp[i][j].army);
+                binread(fpLoadRp, &rp[i][j].army);
         for (int i = 1; i <= R; i++)
             for (int j = 1; j <= C; j++)
-                fscanf(fpLoadRp, "%d", &rp[i][j].belong);
+                binread(fpLoadRp, &rp[i][j].belong);
         for (int i = 1; i <= R; i++)
             for (int j = 1; j <= C; j++)
                 if (map[i][j].type == 3 && (gens[rp[i][j].belong].x != i || gens[rp[i][j].belong].y != j))
