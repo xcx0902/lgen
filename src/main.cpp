@@ -59,6 +59,7 @@ inputCheatCode:
         gotoxy(choice + 1, 1);
         printf(">>");
     }
+    if (choice == 1) goto inputCheatCode;
     if (choice != players + 2) {
         if (choice == players + 1)
             ret = ((ret == ((1 << players) - 1) << 1)? 2 : ((1 << players) - 1) << 1);
