@@ -91,6 +91,16 @@ inline int initattr() {
 
 inline void resetattr() { fputs("\033[0m\033[38;2;255;255;255m", stdout); }
 
+// Binary files processing functions
+
+inline int binread(FILE *fp, void *dest) {
+    return fread(dest, sizeof(dest), 1, fp);
+}
+
+inline int binwrite(FILE *fp, void *dest) {
+    return fwrite(dest, sizeof(dest), 1, fp);
+}
+
 // Defines
 
 struct block {
