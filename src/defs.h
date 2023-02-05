@@ -160,9 +160,9 @@ const char* botSourceView[10] = { 0,
     "start https://github.com/xcx0902/lgen/blob/main/src/bot/bot2.h"
 };
 const char* botSourceDownload[10] = { 0,
-    "curl --ssl-no-revoke -k -o main.h https://raw.githubusercontent.com/xcx0902/lgen/main/src/bot/main.h",
-    "curl --ssl-no-revoke -k -o bot1.h https://raw.githubusercontent.com/xcx0902/lgen/main/src/bot/bot1.h",
-    "curl --ssl-no-revoke -k -o bot2.h https://raw.githubusercontent.com/xcx0902/lgen/main/src/bot/bot2.h"
+    "curl --ssl-no-revoke -k -o main.h https://raw.githubusercontents.com/xcx0902/lgen/main/src/bot/main.h",
+    "curl --ssl-no-revoke -k -o bot1.h https://raw.githubusercontents.com/xcx0902/lgen/main/src/bot/bot1.h",
+    "curl --ssl-no-revoke -k -o bot2.h https://raw.githubusercontents.com/xcx0902/lgen/main/src/bot/bot2.h"
 };
 
 const int dx[5] = {0, -1, 0, 1, 0};
