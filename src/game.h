@@ -8,10 +8,11 @@
 #include "bot/bot2.h"
 #include "replay/create.h"
 
-int turn, msgCnt;
+int turn, moveCnt, msgCnt;
 bool gameEnd;
 defMessage msg[205];
 defPlayer pos[20];
+defMove moves[20];
 std::deque<defMove> todoMove;
 inline int (*bot[10])(int, defPlayer, int) = {NULL, mainBot::mainBot, bot1::bot1, bot2::bot2};
 
@@ -120,9 +121,11 @@ inline void kill(int p1, int p2) {
 }
 
 inline void flushMove() {
+    moveCnt = 0;
     while (!todoMove.empty()) {
         defMove p = todoMove.front();
         todoMove.pop_front();
+        moves[++moveCnt] = p;
         if (!isAlive[p.id]) continue;
         if (map[p.from.x][p.from.y].belong != p.id) continue;
         int leftArmy = 1;
@@ -191,7 +194,7 @@ inline void runGame() {
     if (useRep) initReplay();
     updateMap();
     printMap(cheatCode, gens[1]);
-    std::deque<int> moves;
+    std::deque<int> cachedMoves;
     std::chrono::nanoseconds lst = nowTime;
     while (1) {
         if (_kbhit() || delay == -1) {
@@ -199,22 +202,22 @@ inline void runGame() {
             switch(ch = tolower(ch)) {
                 case int(' '): while (delay != -1 && getch() != ' '); break;
                 case int('c'): clearall(); break;
-                case int('w'): moves.emplace_back(1); break;
-                case int('a'): moves.emplace_back(2); break;
-                case int('s'): moves.emplace_back(3); break;
-                case int('d'): moves.emplace_back(4); break;
+                case int('w'): cachedMoves.emplace_back(1); break;
+                case int('a'): cachedMoves.emplace_back(2); break;
+                case int('s'): cachedMoves.emplace_back(3); break;
+                case int('d'): cachedMoves.emplace_back(4); break;
                 case 224:
                     ch = getch();
                     switch (ch) {
-                        case 72: moves.emplace_back(5); break;
-                        case 75: moves.emplace_back(6); break;
-                        case 80: moves.emplace_back(7); break;
-                        case 77: moves.emplace_back(8); break;
+                        case 72: cachedMoves.emplace_back(5); break;
+                        case 75: cachedMoves.emplace_back(6); break;
+                        case 80: cachedMoves.emplace_back(7); break;
+                        case 77: cachedMoves.emplace_back(8); break;
                     }
                     break;
-                case int('g'): moves.emplace_back(0); break;
-                case int('e'): if (!moves.empty()) moves.pop_back(); break;
-                case int('q'): moves.clear(); break;
+                case int('g'): cachedMoves.emplace_back(0); break;
+                case int('e'): if (!cachedMoves.empty()) cachedMoves.pop_back(); break;
+                case int('q'): cachedMoves.clear(); break;
                 case 27:
                     if (useRep && !gameEnd) setTurn(turn);
                     MessageBoxA(nullptr, "YOU QUIT THE GAME.", "EXIT", MB_OK);
@@ -238,15 +241,17 @@ inline void runGame() {
         if (delay != -1 && nowTime - lst < std::chrono::milliseconds(delay))
             continue;
         updateMap();
-        while (!moves.empty() && move(1, moves.front(), pos[1]))
-            moves.pop_front();
-        if (!moves.empty())
-            moves.pop_front();
+        while (!cachedMoves.empty() && move(1, cachedMoves.front(), pos[1]))
+            cachedMoves.pop_front();
+        if (!cachedMoves.empty())
+            cachedMoves.pop_front();
         for (int i = 2; i <= players; i++) {
             if (!isAlive[i]) continue;
             move(i, bot[botId](i, pos[i], turn), pos[i]);
         }
         flushMove();
+        if (useRep && !gameEnd)
+            saveReplay(turn, moveCnt, moves);
         if (cheatCode != ((1 << players) - 1) << 1) {
             int allDead = 0;
             for (int i = 1; i <= players && !allDead; i++) {
@@ -274,7 +279,6 @@ inline void runGame() {
         gotoxy(1, 1);
         printMap(cheatCode, pos[1]);
         printMsg();
-        if (useRep && !gameEnd) saveReplay(turn);
         fflush(stdout);
         lst = nowTime;
     }

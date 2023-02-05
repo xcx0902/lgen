@@ -6,7 +6,9 @@
 #include <vector>
 using std::vector;
 
-int allt, nowt = 2, savet, lstt, jumpt = 1, autoPlay = 0, spd, eta;
+int allt, nowt = 2, savet, lstt, jumpt = 1;
+int replayMoveCnt = 0, autoPlay = 0, spd, eta;
+defMove replayMoves[20];
 FILE *fpLoadRp;
 char loadRpName[1000];
 vector<vector<vector<block>>> rep;
@@ -71,6 +73,75 @@ inline void printProgress() {
     clearline();
 }
 
+inline void generateKill(int x, int p1, int p2) {
+    isAlive[p2] = 0;
+    for (int i = 1; i <= R; i++)
+        for (int j = 1; j <= C; j++) {
+            if (rep[x][i][j].belong == p2 && rep[x][i][j].type != 3) {
+                rep[x][i][j].belong = p1;
+                rep[x][i][j].army = (rep[x][i][j].army + 1) >> 1;
+            }
+        }
+}
+
+inline void generate(int x) {
+    for (int i = 1; i <= replayMoveCnt; i++) {
+        defMove p = replayMoves[i];
+        if (!isAlive[p.id]) continue;
+        if (rep[x][p.from.x][p.from.y].belong != p.id) continue;
+        int leftArmy = 1;
+        if (rep[x][p.from.x][p.from.y].type == 3)
+            leftArmy = std::max(1LL, rep[x][p.from.x][p.from.y].army >> 1);
+        if (rep[x][p.to.x][p.to.y].belong == p.id) {
+            rep[x][p.to.x][p.to.y].army += rep[x][p.from.x][p.from.y].army - leftArmy;
+            rep[x][p.from.x][p.from.y].army = leftArmy;
+        } else {
+            rep[x][p.to.x][p.to.y].army -= rep[x][p.from.x][p.from.y].army - leftArmy;
+            rep[x][p.from.x][p.from.y].army = leftArmy;
+            if (rep[x][p.to.x][p.to.y].army < 0) {
+                rep[x][p.to.x][p.to.y].army = -rep[x][p.to.x][p.to.y].army;
+                int t = rep[x][p.to.x][p.to.y].belong;
+                rep[x][p.to.x][p.to.y].belong = p.id;
+                if (rep[x][p.to.x][p.to.y].type == 3) {
+                    generateKill(x, p.id, t);
+                    rep[x][p.to.x][p.to.y].type = 4;
+                    for (int j = i + 1; j <= replayMoveCnt; j++)
+                        if (replayMoves[j].id == t)
+                            replayMoves[j].id = p.id;
+                }
+            }
+        }
+    }
+}
+
+inline void update(int x) {
+    rep[x] = rep[x - 1];
+    for (int i = 1; i <= R; i++)
+        for (int j = 1; j <= C; j++) {
+            if (rep[x][i][j].belong == 0)
+                continue;
+            switch (rep[x][i][j].type) {
+                case 0: /* plain */
+                    if (x % 50 == 0)
+                        rep[x][i][j].army++;
+                    break;
+                case 1: /* swamp */
+                    if (x % 2 == 0 && rep[x][i][j].army > 0)
+                        if (!(--rep[x][i][j].army))
+                            rep[x][i][j].belong = 0;
+                    break;
+                case 3: /* general */
+                    if (x % 2 == 0)
+                        rep[x][i][j].army++;
+                    break;
+                case 4: /* city */
+                    if (x % 2 == 0)
+                        rep[x][i][j].army++;
+                    break;
+            }
+        }
+}
+
 inline void loadReplay() {
     printf("Input replay name: ");
 inputRpName:
@@ -97,12 +168,18 @@ inputRpName:
         binread(fpLoadRp, &gens[i].x);
         binread(fpLoadRp, &gens[i].y);
     }
+    if (!savet) rep.resize(2);
+    rep[1].resize(R + 1);
+    for (int i = 1; i <= R; i++)
+        rep[1][i].resize(C + 1);
     for (int i = 1; i <= R; i++)
         for (int j = 1; j <= C; j++)
-            binread(fpLoadRp, &map[i][j].army);
+            binread(fpLoadRp, &rep[1][i][j].army);
     for (int i = 1; i <= R; i++)
         for (int j = 1; j <= C; j++)
-            binread(fpLoadRp, &map[i][j].type);
+            binread(fpLoadRp, &rep[1][i][j].type);
+    for (int i = 1; i <= players; i++)
+        rep[1][gens[i].x][gens[i].y].belong = i, isAlive[i] = 1;
     std::chrono::nanoseconds lst = nowTime;
     setvbuf(stdout, nullptr, _IOFBF, 5000000);
     while (binread(fpLoadRp, &allt)) {
@@ -116,17 +193,16 @@ inputRpName:
         rp.resize(R + 1);
         for (int i = 1; i <= R; i++)
             rp[i].resize(C + 1);
-        for (int i = 1; i <= R; i++)
-            for (int j = 1; j <= C; j++)
-                binread(fpLoadRp, &rp[i][j].army);
-        for (int i = 1; i <= R; i++)
-            for (int j = 1; j <= C; j++)
-                binread(fpLoadRp, &rp[i][j].belong);
-        for (int i = 1; i <= R; i++)
-            for (int j = 1; j <= C; j++)
-                if (map[i][j].type == 3 && (gens[rp[i][j].belong].x != i || gens[rp[i][j].belong].y != j))
-                    rp[i][j].type = 4;
-                else rp[i][j].type = map[i][j].type;
+        binread(fpLoadRp, &replayMoveCnt);
+        for (int i = 1; i <= replayMoveCnt; i++) {
+            binread(fpLoadRp, &replayMoves[i].id);
+            binread(fpLoadRp, &replayMoves[i].from.x);
+            binread(fpLoadRp, &replayMoves[i].from.y);
+            binread(fpLoadRp, &replayMoves[i].to.x);
+            binread(fpLoadRp, &replayMoves[i].to.y);
+        }
+        update(allt);
+        generate(allt);
         if (nowTime - lst < std::chrono::milliseconds(1000))
             continue;
         spd = allt - lstt;
