@@ -12,39 +12,40 @@ inline void initReplay() {
     if (_access("replay/", 0) == -1)
         _mkdir("replay/");
     strcpy(repName, ("replay/" + std::string(repName) + ".lgreplay").c_str());
-    fpCreateRep = fopen(repName, "w");
-    fprintf(fpCreateRep, "%d %d %d %d              \n", R, C, players, 0);
-    for (int i = 1; i <= players; i++)
-        fprintf(fpCreateRep, "%d %d\n", gens[i].x, gens[i].y);
-    for (int i = 1; i <= R; i++) {
-        for (int j = 1; j <= C; j++)
-            fprintf(fpCreateRep, "%lld ", map[i][j].army);
-        fprintf(fpCreateRep, "\n");
+    fpCreateRep = fopen(repName, "wb");
+    int zero = 0;
+    binwrite(fpCreateRep, &R);
+    binwrite(fpCreateRep, &C);
+    binwrite(fpCreateRep, &players);
+    binwrite(fpCreateRep, &zero);
+    for (int i = 1; i <= players; i++) {
+        binwrite(fpCreateRep, &gens[i].x);
+        binwrite(fpCreateRep, &gens[i].y);
     }
-    for (int i = 1; i <= R; i++) {
+    for (int i = 1; i <= R; i++)
         for (int j = 1; j <= C; j++)
-            fprintf(fpCreateRep, "%d ", map[i][j].type);
-        fprintf(fpCreateRep, "\n");
-    }
+            binwrite(fpCreateRep, &map[i][j].army);
+    for (int i = 1; i <= R; i++)
+        for (int j = 1; j <= C; j++)
+            binwrite(fpCreateRep, &map[i][j].type);
 }
 
 inline void saveReplay(int turn) {
-    fprintf(fpCreateRep, "%d\n", turn);
-    for (int i = 1; i <= R; i++) {
+    binwrite(fpCreateRep, &turn);
+    for (int i = 1; i <= R; i++)
         for (int j = 1; j <= C; j++)
-            fprintf(fpCreateRep, "%lld ", map[i][j].army);
-        fprintf(fpCreateRep, "\n");
-    }
-    for (int i = 1; i <= R; i++) {
+            binwrite(fpCreateRep, &map[i][j].army);
+    for (int i = 1; i <= R; i++)
         for (int j = 1; j <= C; j++)
-            fprintf(fpCreateRep, "%d ", map[i][j].belong);
-        fprintf(fpCreateRep, "\n");
-    }
+            binwrite(fpCreateRep, &map[i][j].belong);
 }
 
 inline void setTurn(int turn) {
     rewind(fpCreateRep);
-    fprintf(fpCreateRep, "%d %d %d %d", R, C, players, turn);
+    binwrite(fpCreateRep, &R);
+    binwrite(fpCreateRep, &C);
+    binwrite(fpCreateRep, &players);
+    binwrite(fpCreateRep, &turn);
 }
 
 #endif // __LGEN_REPLAY_CREATE_H
