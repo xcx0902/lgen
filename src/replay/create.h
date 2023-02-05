@@ -30,14 +30,16 @@ inline void initReplay() {
             binwrite(fpCreateRep, &map[i][j].type);
 }
 
-inline void saveReplay(int turn) {
+inline void saveReplay(int turn, int moveCnt, defMove moves[]) {
     binwrite(fpCreateRep, &turn);
-    for (int i = 1; i <= R; i++)
-        for (int j = 1; j <= C; j++)
-            binwrite(fpCreateRep, &map[i][j].army);
-    for (int i = 1; i <= R; i++)
-        for (int j = 1; j <= C; j++)
-            binwrite(fpCreateRep, &map[i][j].belong);
+    binwrite(fpCreateRep, &moveCnt);
+    for (int i = 1; i <= moveCnt; i++) {
+        binwrite(fpCreateRep, &moves[i].id);
+        binwrite(fpCreateRep, &moves[i].from.x);
+        binwrite(fpCreateRep, &moves[i].from.y);
+        binwrite(fpCreateRep, &moves[i].to.x);
+        binwrite(fpCreateRep, &moves[i].to.y);
+    }
 }
 
 inline void setTurn(int turn) {
