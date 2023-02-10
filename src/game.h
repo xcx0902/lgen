@@ -129,7 +129,7 @@ inline void flushMove() {
         if (!isAlive[p.id]) continue;
         if (map[p.from.x][p.from.y].belong != p.id) continue;
         int leftArmy = 1;
-        if (map[p.from.x][p.from.y].type == 3)
+        if (map[p.from.x][p.from.y].type == 3 && turn > 150)
             leftArmy = std::max(1LL, map[p.from.x][p.from.y].army >> 1);
         if (map[p.to.x][p.to.y].belong == p.id) {
             map[p.to.x][p.to.y].army += map[p.from.x][p.from.y].army - leftArmy;
