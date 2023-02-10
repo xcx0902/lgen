@@ -24,7 +24,7 @@ inline void initReplay() {
     }
     for (int i = 1; i <= R; i++)
         for (int j = 1; j <= C; j++)
-            binwrite(fpCreateRep, &map[i][j].army);
+            binwrite(fpCreateRep, &map[i][j].army, 8);
     for (int i = 1; i <= R; i++)
         for (int j = 1; j <= C; j++)
             binwrite(fpCreateRep, &map[i][j].type);

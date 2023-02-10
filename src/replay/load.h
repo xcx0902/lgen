@@ -174,7 +174,7 @@ inputRpName:
         rep[1][i].resize(C + 1);
     for (int i = 1; i <= R; i++)
         for (int j = 1; j <= C; j++)
-            binread(fpLoadRp, &rep[1][i][j].army);
+            binread(fpLoadRp, &rep[1][i][j].army, 8);
     for (int i = 1; i <= R; i++)
         for (int j = 1; j <= C; j++)
             binread(fpLoadRp, &rep[1][i][j].type);
