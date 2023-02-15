@@ -8,11 +8,10 @@
 #include "bot/bot2.h"
 #include "replay/create.h"
 
-int turn, moveCnt, msgCnt;
+int turn, msgCnt, moves[20];
 bool gameEnd;
 defMessage msg[205];
 defPlayer pos[20];
-defMove moves[20];
 std::deque<defMove> todoMove;
 inline int (*bot[10])(int, defPlayer, int) = {NULL, mainBot::mainBot, bot1::bot1, bot2::bot2};
 
@@ -101,6 +100,7 @@ inline int move(int id, int mv, defPlayer& pos) {
         default:
             return -1;
     }
+    moves[id] = mv;
     return 0;
 }
 
@@ -121,11 +121,9 @@ inline void kill(int p1, int p2) {
 }
 
 inline void flushMove() {
-    moveCnt = 0;
     while (!todoMove.empty()) {
         defMove p = todoMove.front();
         todoMove.pop_front();
-        moves[++moveCnt] = p;
         if (!isAlive[p.id]) continue;
         if (map[p.from.x][p.from.y].belong != p.id) continue;
         int leftArmy = 1;
@@ -241,6 +239,7 @@ inline void runGame() {
         if (delay != -1 && nowTime - lst < std::chrono::milliseconds(delay))
             continue;
         updateMap();
+        memset(moves, -1, sizeof moves);
         while (!cachedMoves.empty() && move(1, cachedMoves.front(), pos[1]))
             cachedMoves.pop_front();
         if (!cachedMoves.empty())
@@ -251,7 +250,7 @@ inline void runGame() {
         }
         flushMove();
         if (useRep && !gameEnd)
-            saveReplay(turn, moveCnt, moves);
+            saveReplay(turn, moves);
         if (cheatCode != ((1 << players) - 1) << 1) {
             int allDead = 0;
             for (int i = 1; i <= players && !allDead; i++) {

@@ -8,7 +8,8 @@ using std::vector;
 
 int allt, nowt = 2, savet, lstt, jumpt = 1;
 int replayMoveCnt = 0, autoPlay = 0, spd, eta;
-defMove replayMoves[20];
+int replayMoves[20];
+defMove tempMoves[20];
 FILE *fpLoadRp;
 char loadRpName[1000];
 vector<vector<vector<block>>> rep;
@@ -73,6 +74,34 @@ inline void printProgress() {
     clearline();
 }
 
+inline int makeMove(int id, int mv, defPlayer& pos) {
+    switch (mv) {
+        case -1:
+            break;
+        case 0:
+            pos = gens[id];
+            break;
+        case 1 ... 4: {
+            defPlayer npos = {pos.x + dx[mv], pos.y + dy[mv]};
+            if (npos.x < 1 || npos.x > R || npos.y < 1 || npos.y > C || map[npos.x][npos.y].type == 2)
+                return 1;
+            tempMoves[++replayMoveCnt] = {id, pos, npos};
+            pos = npos;
+            break;
+        }
+        case 5 ... 8: {
+            defPlayer npos = {pos.x + dx[mv - 4], pos.y + dy[mv - 4]};
+            if (npos.x < 1 || npos.x > R || npos.y < 1 || npos.y > C)
+                return 1;
+            pos = npos;
+            break;
+        }
+        default:
+            return -1;
+    }
+    return 0;
+}
+
 inline void generateKill(int x, int p1, int p2) {
     isAlive[p2] = 0;
     for (int i = 1; i <= R; i++)
@@ -86,11 +115,11 @@ inline void generateKill(int x, int p1, int p2) {
 
 inline void generate(int x) {
     for (int i = 1; i <= replayMoveCnt; i++) {
-        defMove p = replayMoves[i];
+        defMove p = tempMoves[i];
         if (!isAlive[p.id]) continue;
         if (rep[x][p.from.x][p.from.y].belong != p.id) continue;
         int leftArmy = 1;
-        if (rep[x][p.from.x][p.from.y].type == 3)
+        if (rep[x][p.from.x][p.from.y].type == 3 && turn > 150)
             leftArmy = std::max(1LL, rep[x][p.from.x][p.from.y].army >> 1);
         if (rep[x][p.to.x][p.to.y].belong == p.id) {
             rep[x][p.to.x][p.to.y].army += rep[x][p.from.x][p.from.y].army - leftArmy;
@@ -106,8 +135,8 @@ inline void generate(int x) {
                     generateKill(x, p.id, t);
                     rep[x][p.to.x][p.to.y].type = 4;
                     for (int j = i + 1; j <= replayMoveCnt; j++)
-                        if (replayMoves[j].id == t)
-                            replayMoves[j].id = p.id;
+                        if (tempMoves[j].id == t)
+                            tempMoves[j].id = p.id;
                 }
             }
         }
@@ -167,6 +196,7 @@ inputRpName:
     for (int i = 1; i <= players; i++) {
         binread(fpLoadRp, &gens[i].x);
         binread(fpLoadRp, &gens[i].y);
+        pos[i] = gens[i];
     }
     if (!savet) rep.resize(2);
     rep[1].resize(R + 1);
@@ -193,13 +223,10 @@ inputRpName:
         rp.resize(R + 1);
         for (int i = 1; i <= R; i++)
             rp[i].resize(C + 1);
-        binread(fpLoadRp, &replayMoveCnt);
-        for (int i = 1; i <= replayMoveCnt; i++) {
-            binread(fpLoadRp, &replayMoves[i].id);
-            binread(fpLoadRp, &replayMoves[i].from.x);
-            binread(fpLoadRp, &replayMoves[i].from.y);
-            binread(fpLoadRp, &replayMoves[i].to.x);
-            binread(fpLoadRp, &replayMoves[i].to.y);
+        replayMoveCnt = 0;
+        for (int i = 1; i <= players; i++) {
+            binread(fpLoadRp, &replayMoves[i]);
+            makeMove(i, replayMoves[i], pos[i]);
         }
         update(allt);
         generate(allt);
