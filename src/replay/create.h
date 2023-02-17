@@ -32,8 +32,19 @@ inline void initReplay() {
 
 inline void saveReplay(int turn, int moves[]) {
     binwrite(fpCreateRep, &turn);
-    for (int i = 1; i <= players; i++)
-        binwrite(fpCreateRep, &moves[i]);
+    unsigned char buf = 0, cnt = 0;
+    for (int i = 1; i <= players; i++) {
+        unsigned char k = moves[i] + 1;
+        buf = buf * 16 + k, cnt++;
+        if (cnt == 2) {
+            binwrite(fpCreateRep, &buf, 1);
+            buf = cnt = 0;
+        }
+    }
+    if (buf) {
+        buf *= 16;
+        binwrite(fpCreateRep, &buf, 1);
+    }
 }
 
 inline void setTurn(int turn) {

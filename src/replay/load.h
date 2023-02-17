@@ -224,9 +224,13 @@ inputRpName:
         for (int i = 1; i <= R; i++)
             rp[i].resize(C + 1);
         replayMoveCnt = 0;
-        for (int i = 1; i <= players; i++) {
-            binread(fpLoadRp, &replayMoves[i]);
-            makeMove(i, replayMoves[i], pos[i]);
+        unsigned char buf = 0, p1 = 0, p2 = 0;
+        for (int i = 1; i <= (players + 1) >> 1; i++) {
+            binread(fpLoadRp, &buf, 1);
+            p1 = buf >> 4, p2 = buf & 15;
+            makeMove(i * 2 - 1, p1 - 1, pos[i * 2 - 1]);
+            if (i * 2 <= players)
+                makeMove(i * 2, p2 - 1, pos[i * 2]);
         }
         update(allt);
         generate(allt);
