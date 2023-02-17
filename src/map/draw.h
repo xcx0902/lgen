@@ -69,16 +69,15 @@ draw:
     while (1) {
         gotoxy(1, 1);
         printMap(0, now, 1);
-        printf("w: save | q: save&quit | c: changeArmy | e: changeVisibility | 0: plain | 1: swamp | 2: mountain | 3: general | 4: city | visible = %d | army = %d\n", map[now.x][now.y].visible, army);
+        printf("w: save | q: save&quit | c: changeArmy | e: changeVisibility | 0: plain | 1: swamp | 2: mountain | 3: general | 4: city | x: reset | visible = %d | army = %d\n", map[now.x][now.y].visible, army);
         clearline();
         printf("x = %d, y = %d", now.x, now.y);
         fflush(stdout);
         cmd = getch();
         switch (cmd) {
-            case 'w': {
+            case 'w':
                 writeMap();
                 break;
-            }
             case 'q':
                 writeMap();
                 return;
@@ -108,6 +107,10 @@ draw:
             case '4':
                 map[now.x][now.y].type = 4;
                 map[now.x][now.y].army = army;
+                break;
+            case 'x':
+                map[now.x][now.y].type = 0;
+                map[now.x][now.y].army = 0;
                 break;
             case 224: {
                 int tmp = getch();
