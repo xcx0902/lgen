@@ -8,6 +8,8 @@
 
 Tips: 建议使用 `8x`，因为 `16x` 及以上容易被 bot 秒杀。
 
+Warning: 在游戏过程中，如需终止请用 Esc 退出，否则可能导致回放文件无法加载等问题。
+
 <details>
 <summary>Repository Stats</summary>
 
