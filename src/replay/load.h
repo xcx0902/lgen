@@ -119,7 +119,7 @@ inline void generate(int x) {
         if (!isAlive[p.id]) continue;
         if (rep[x][p.from.x][p.from.y].belong != p.id) continue;
         int leftArmy = 1;
-        if (rep[x][p.from.x][p.from.y].type == 3 && turn > 150)
+        if (rep[x][p.from.x][p.from.y].type == 3 && x > 150)
             leftArmy = std::max(1LL, rep[x][p.from.x][p.from.y].army >> 1);
         if (rep[x][p.to.x][p.to.y].belong == p.id) {
             rep[x][p.to.x][p.to.y].army += rep[x][p.from.x][p.from.y].army - leftArmy;
